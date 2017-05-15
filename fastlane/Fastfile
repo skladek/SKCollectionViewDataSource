@@ -1,0 +1,9 @@
+fastlane_version "2.27.0"
+
+default_platform :ios
+
+lane :test do
+  scan(
+    scheme: "CollectionViewDataSource"
+  )
+end
