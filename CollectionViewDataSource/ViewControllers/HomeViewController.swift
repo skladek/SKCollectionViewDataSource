@@ -55,9 +55,9 @@ extension HomeViewController: UICollectionViewDelegate {
 
         switch object {
         case .singleSection:
-            viewController = UIViewController()
+            viewController = SingleSectionViewController()
         case .multipleSection:
-            viewController = UIViewController()
+            viewController = MultipleSectionViewController()
         }
 
         if let viewController = viewController {
