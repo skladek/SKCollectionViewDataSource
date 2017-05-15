@@ -4,6 +4,7 @@ default_platform :ios
 
 lane :test do
   scan(
+  	device: "iPad Air",
     scheme: "CollectionViewDataSource"
   )
 end
