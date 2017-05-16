@@ -11,7 +11,13 @@ import UIKit
 @objc
 protocol CollectionViewDataSourceDelegate {
     @objc
+    optional func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool
+
+    @objc
     optional func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell?
+
+    @objc
+    optional func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath)
 
     @objc
     optional func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -27,11 +33,13 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     weak var delegate: CollectionViewDataSourceDelegate?
 
+    var objects: [[T]]
+
     let reuseId: String
 
-    let objects: [[T]]
-
     fileprivate let cellPresenter: CellPresenter?
+
+    // MARK: Initializers
 
     convenience init(objects: [T], cellReuseId: String, cellPresenter: CellPresenter? = nil) {
         self.init(objects: [objects], cellReuseId: cellReuseId, cellPresenter: cellPresenter)
@@ -41,6 +49,19 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         self.cellPresenter = cellPresenter
         self.objects = objects
         self.reuseId = cellReuseId
+    }
+
+    // MARK: Public Methods
+
+    /// Moves the object at the source index path to the destination index path.
+    ///
+    /// - Parameters:
+    ///   - sourceIndexPath: The current index path of the object.
+    ///   - destinationIndexPath: The index path where the object should be after the move.
+    func moveFrom(_ sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedObject = object(sourceIndexPath)
+        delete(indexPath: sourceIndexPath)
+        insert(object: movedObject, at: destinationIndexPath)
     }
 
     /// Returns the object at the provided index path.
@@ -53,8 +74,28 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return section[indexPath.row]
     }
 
+    // MARK: Private Methods
+
+    private func delete(indexPath: IndexPath) {
+        var section = sectionArray(indexPath)
+        section.remove(at: indexPath.row)
+        objects[indexPath.section] = section
+    }
+
+    private func insert(object: T, at indexPath: IndexPath) {
+        var section = sectionArray(indexPath)
+        section.insert(object, at: indexPath.row)
+        objects[indexPath.section] = section
+    }
+
     private func sectionArray(_ indexPath: IndexPath) -> [T] {
         return objects[indexPath.section]
+    }
+
+    // MARK: UICollectionViewDataSource Methods
+
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return delegate?.collectionView?(collectionView, canMoveItemAt: indexPath) ?? true
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -68,6 +109,10 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         cellPresenter?(cell, object)
 
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        delegate?.collectionView?(collectionView, moveItemAt: sourceIndexPath, to: destinationIndexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

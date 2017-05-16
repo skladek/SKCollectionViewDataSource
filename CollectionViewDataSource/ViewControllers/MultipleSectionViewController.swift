@@ -33,6 +33,5 @@ class MultipleSectionViewController: UIViewController {
         }
 
         collectionView.dataSource = dataSource
-        collectionView.reloadData()
     }
 }

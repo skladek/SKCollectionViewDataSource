@@ -41,7 +41,6 @@ class HomeViewController: UIViewController {
         }
 
         collectionView.dataSource = dataSource
-        collectionView.reloadData()
     }
 }
 

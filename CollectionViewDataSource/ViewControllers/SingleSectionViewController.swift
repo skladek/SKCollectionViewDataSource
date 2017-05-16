@@ -33,6 +33,5 @@ class SingleSectionViewController: UIViewController {
         }
 
         collectionView.dataSource = dataSource
-        collectionView.reloadData()
     }
 }
