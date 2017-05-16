@@ -23,6 +23,9 @@ protocol CollectionViewDataSourceDelegate {
     optional func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
 
     @objc
+    optional func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView?
+
+    @objc
     optional func numberOfSections(in collectionView: UICollectionView) -> Int
 }
 
@@ -30,6 +33,8 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     /// A closure to allow the presenter logic to be injected on init.
     typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> ()
+
+    typealias ReusableViewPresenter = (_ reusableView: UICollectionReusableView, _ object: T) -> ()
 
     weak var delegate: CollectionViewDataSourceDelegate?
 
@@ -39,15 +44,18 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     fileprivate let cellPresenter: CellPresenter?
 
+    fileprivate let reusableViewPresenter: ReusableViewPresenter?
+
     // MARK: Initializers
 
-    convenience init(objects: [T], cellReuseId: String, cellPresenter: CellPresenter? = nil) {
+    convenience init(objects: [T], cellReuseId: String, cellPresenter: CellPresenter? = nil, reusableViewPresenter: ReusableViewPresenter? = nil) {
         self.init(objects: [objects], cellReuseId: cellReuseId, cellPresenter: cellPresenter)
     }
 
-    init(objects: [[T]], cellReuseId: String, cellPresenter: CellPresenter? = nil) {
+    init(objects: [[T]], cellReuseId: String, cellPresenter: CellPresenter? = nil, reusableViewPresenter: ReusableViewPresenter? = nil) {
         self.cellPresenter = cellPresenter
         self.objects = objects
+        self.reusableViewPresenter = reusableViewPresenter
         self.reuseId = cellReuseId
     }
 
@@ -124,6 +132,19 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         let section = sectionArray(indexPath)
 
         return section.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let view = delegate?.collectionView?(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath) {
+            return view
+        }
+
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseId, for: indexPath)
+
+        let object = self.object(indexPath)
+        reusableViewPresenter?(view, object)
+
+        return view
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
