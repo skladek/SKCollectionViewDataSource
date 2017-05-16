@@ -20,6 +20,8 @@
 		14F21DEA1ECA5959000E0431 /* SingleSectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DE81ECA5959000E0431 /* SingleSectionViewController.xib */; };
 		14F21DED1ECA5C67000E0431 /* MultipleSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21DEB1ECA5C67000E0431 /* MultipleSectionViewController.swift */; };
 		14F21DEE1ECA5C67000E0431 /* MultipleSectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DEC1ECA5C67000E0431 /* MultipleSectionViewController.xib */; };
+		14F21DF71ECB5ED7000E0431 /* ReorderableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21DF51ECB5ED7000E0431 /* ReorderableViewController.swift */; };
+		14F21DF81ECB5ED7000E0431 /* ReorderableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		14F21DE81ECA5959000E0431 /* SingleSectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleSectionViewController.xib; sourceTree = "<group>"; };
 		14F21DEB1ECA5C67000E0431 /* MultipleSectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleSectionViewController.swift; sourceTree = "<group>"; };
 		14F21DEC1ECA5C67000E0431 /* MultipleSectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultipleSectionViewController.xib; sourceTree = "<group>"; };
+		14F21DF51ECB5ED7000E0431 /* ReorderableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReorderableViewController.swift; sourceTree = "<group>"; };
+		14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReorderableViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +138,8 @@
 				14F21DD81ECA4781000E0431 /* HomeViewController.xib */,
 				14F21DEB1ECA5C67000E0431 /* MultipleSectionViewController.swift */,
 				14F21DEC1ECA5C67000E0431 /* MultipleSectionViewController.xib */,
+				14F21DF51ECB5ED7000E0431 /* ReorderableViewController.swift */,
+				14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */,
 				14F21DE71ECA5959000E0431 /* SingleSectionViewController.swift */,
 				14F21DE81ECA5959000E0431 /* SingleSectionViewController.xib */,
 			);
@@ -240,6 +246,7 @@
 				14F21DD51ECA473B000E0431 /* LaunchScreen.storyboard in Resources */,
 				14F21DE61ECA549D000E0431 /* TextCell.xib in Resources */,
 				14F21DDA1ECA4781000E0431 /* HomeViewController.xib in Resources */,
+				14F21DF81ECB5ED7000E0431 /* ReorderableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +267,7 @@
 				14F21DED1ECA5C67000E0431 /* MultipleSectionViewController.swift in Sources */,
 				14F21DE91ECA5959000E0431 /* SingleSectionViewController.swift in Sources */,
 				14F21DD31ECA473B000E0431 /* AppDelegate.swift in Sources */,
+				14F21DF71ECB5ED7000E0431 /* ReorderableViewController.swift in Sources */,
 				14F21DDC1ECA49A2000E0431 /* CollectionViewDataSource.swift in Sources */,
 				14F21DE51ECA549D000E0431 /* TextCell.swift in Sources */,
 				14F21DD91ECA4781000E0431 /* HomeViewController.swift in Sources */,

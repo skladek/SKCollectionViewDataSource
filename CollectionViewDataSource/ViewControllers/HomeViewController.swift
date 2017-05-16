@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     enum Items: String {
         case singleSection = "Single Section Collection View"
         case multipleSection = "Multiple Section Collection View"
+        case reorderable = "Reorderable Collection View"
     }
 
     var dataSource: CollectionViewDataSource<Items>?
@@ -29,7 +30,8 @@ class HomeViewController: UIViewController {
 
         let array: [Items] = [
             .singleSection,
-            .multipleSection
+            .multipleSection,
+            .reorderable,
         ]
 
         dataSource = CollectionViewDataSource(objects: array, cellReuseId: reuseId) { (cell, object) in
@@ -57,6 +59,8 @@ extension HomeViewController: UICollectionViewDelegate {
             viewController = SingleSectionViewController()
         case .multipleSection:
             viewController = MultipleSectionViewController()
+        case .reorderable:
+            viewController = ReorderableViewController()
         }
 
         if let viewController = viewController {
