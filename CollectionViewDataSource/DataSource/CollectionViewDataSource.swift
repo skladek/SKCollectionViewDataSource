@@ -8,10 +8,24 @@
 
 import UIKit
 
+@objc
+protocol CollectionViewDataSourceDelegate {
+    @objc
+    optional func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell?
+
+    @objc
+    optional func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+
+    @objc
+    optional func numberOfSections(in collectionView: UICollectionView) -> Int
+}
+
 class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     /// A closure to allow the presenter logic to be injected on init.
     typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> ()
+
+    weak var delegate: CollectionViewDataSourceDelegate?
 
     let reuseId: String
 
@@ -44,6 +58,10 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = delegate?.collectionView?(collectionView, cellForItemAt: indexPath) {
+            return cell
+        }
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
 
         let object = self.object(indexPath)
@@ -53,6 +71,10 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let items = delegate?.collectionView?(collectionView, numberOfItemsInSection: section) {
+            return items
+        }
+
         let indexPath = IndexPath(item: 0, section: section)
         let section = sectionArray(indexPath)
 
@@ -60,6 +82,10 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if let sections = delegate?.numberOfSections?(in: collectionView) {
+            return sections
+        }
+
         return objects.count
     }
 }
