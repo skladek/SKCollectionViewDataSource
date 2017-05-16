@@ -22,6 +22,8 @@
 		14F21DEE1ECA5C67000E0431 /* MultipleSectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DEC1ECA5C67000E0431 /* MultipleSectionViewController.xib */; };
 		14F21DF71ECB5ED7000E0431 /* ReorderableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21DF51ECB5ED7000E0431 /* ReorderableViewController.swift */; };
 		14F21DF81ECB5ED7000E0431 /* ReorderableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */; };
+		14F21DFB1ECB6740000E0431 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DF91ECB6740000E0431 /* Nimble.framework */; };
+		14F21DFC1ECB6740000E0431 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DFA1ECB6740000E0431 /* Quick.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		14F21DEC1ECA5C67000E0431 /* MultipleSectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultipleSectionViewController.xib; sourceTree = "<group>"; };
 		14F21DF51ECB5ED7000E0431 /* ReorderableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReorderableViewController.swift; sourceTree = "<group>"; };
 		14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReorderableViewController.xib; sourceTree = "<group>"; };
+		14F21DF91ECB6740000E0431 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
+		14F21DFA1ECB6740000E0431 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14F21DFC1ECB6740000E0431 /* Quick.framework in Frameworks */,
+				14F21DFB1ECB6740000E0431 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +85,7 @@
 			children = (
 				14F21DAA1ECA4527000E0431 /* CollectionViewDataSource */,
 				14F21DBF1ECA4527000E0431 /* CollectionViewDataSourceTests */,
+				14F21DFD1ECB6744000E0431 /* Frameworks */,
 				14F21DA91ECA4527000E0431 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,6 +162,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		14F21DFD1ECB6744000E0431 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14F21DF91ECB6740000E0431 /* Nimble.framework */,
+				14F21DFA1ECB6740000E0431 /* Quick.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -165,6 +181,7 @@
 				14F21DA41ECA4527000E0431 /* Sources */,
 				14F21DA51ECA4527000E0431 /* Frameworks */,
 				14F21DA61ECA4527000E0431 /* Resources */,
+				14F21E001ECB688A000E0431 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,6 +275,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		14F21E001ECB688A000E0431 /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks ";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		14F21DA41ECA4527000E0431 /* Sources */ = {
@@ -402,6 +438,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MV978XDK83;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewDataSource/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.skladek.CollectionViewDataSource;
@@ -416,6 +456,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MV978XDK83;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/CollectionViewDataSource/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.skladek.CollectionViewDataSource;
@@ -431,6 +475,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = MV978XDK83;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewDataSourceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.skladek.CollectionViewDataSourceTests;
@@ -446,6 +491,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = MV978XDK83;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = CollectionViewDataSourceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.skladek.CollectionViewDataSourceTests;
