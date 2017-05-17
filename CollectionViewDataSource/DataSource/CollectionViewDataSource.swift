@@ -36,6 +36,7 @@ struct CellConfiguration<T> {
 
 struct ReuseableViewConfiguration<T> {
     let reuseId: String
+    let viewKind: String
     let presenter: CollectionViewDataSource<T>.ReusableViewPresenter?
 }
 
@@ -44,7 +45,7 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     /// A closure to allow the presenter logic to be injected on init.
     typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> ()
 
-    typealias ReusableViewPresenter = (_ reusableView: UICollectionReusableView, _ object: T) -> ()
+    typealias ReusableViewPresenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> ()
 
     weak var delegate: CollectionViewDataSourceDelegate?
 
@@ -52,7 +53,7 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     let cellConfiguration: CellConfiguration<T>
 
-    let reusableViewConfiguration: ReuseableViewConfiguration<T>
+    let reusableViewConfiguration: ReuseableViewConfiguration<T>?
 
     // MARK: Initializers
 
@@ -63,7 +64,7 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     init(objects: [[T]], cellConfiguration: CellConfiguration<T>, reusableViewConfiguration: ReuseableViewConfiguration<T>? = nil) {
         self.cellConfiguration = cellConfiguration
         self.objects = objects
-        self.reusableViewConfiguration = reusableViewConfiguration ?? ReuseableViewConfiguration(reuseId: UUID().uuidString, presenter: nil)
+        self.reusableViewConfiguration = reusableViewConfiguration
     }
 
     // MARK: Public Methods
@@ -146,10 +147,13 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return view
         }
 
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reusableViewConfiguration.reuseId, for: indexPath)
+        guard let reusableViewConfiguration = reusableViewConfiguration else {
+            print("Need either to override this method through the delegate or provide a reusableViewConfiguration")
+            return UICollectionReusableView()
+        }
 
-        let object = self.object(indexPath)
-        reusableViewConfiguration.presenter?(view, object)
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reusableViewConfiguration.reuseId, for: indexPath)
+        reusableViewConfiguration.presenter?(view, indexPath.section)
 
         return view
     }

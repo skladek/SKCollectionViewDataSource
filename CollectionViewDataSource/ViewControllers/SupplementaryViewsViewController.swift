@@ -17,14 +17,7 @@ class SupplementaryViewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let reuseId = "SupplementaryViewsViewControllerReuseId"
-
-        let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
-        collectionView.register(textCellNib, forCellWithReuseIdentifier: reuseId)
-
-        let array = [["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona"], ["California", "Colorado", "Connecticut"], ["District of Columbia", "Delaware"], ["Florida"], ["Georgia", "Guam"], ["Hawaii"], ["Iowa", "Idaho", "Illinois", "Indiana"], ["Kansas", "Kentucky"], ["Louisiana"], ["Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana"], ["North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York"], ["Ohio", "Oklahoma", "Oregon"], ["Pennsylvania", "Puerto Rico"], ["Rhode Island"], ["South Carolina", "South Dakota"], ["Tennessee", "Texas"], ["Utah"], ["Virginia", "Virgin Islands", "Vermont"], ["Washington", "Wisconsin", "West Virginia", "Wyoming"]]
-
-        let cellConfiguration = CellConfiguration<String>(reuseId: reuseId) { (cell, object) in
+        let cellConfiguration = CellConfiguration<String>(reuseId: "SupplementaryViewsViewControllerReuseId") { (cell, object) in
             guard let cell = cell as? TextCell else {
                 return
             }
@@ -32,14 +25,35 @@ class SupplementaryViewsViewController: UIViewController {
             cell.label.text = object
         }
 
-        dataSource = CollectionViewDataSource(objects: array, cellConfiguration: cellConfiguration)
+        let reusableViewConfiguration = ReuseableViewConfiguration<String>(reuseId: "ReusableViewReuseId", viewKind: UICollectionElementKindSectionHeader) { (view, section) in
+            guard let view = view as? HeaderCell else {
+                return
+            }
+
+            var firstLetter: String? = nil
+
+            if let firstWord = self.dataSource?.object(IndexPath(item: 0, section: section)) {
+                firstLetter = firstWord.substring(to: firstWord.index(firstWord.startIndex, offsetBy: 1))
+            }
+
+            view.label.text = firstLetter
+        }
+
+        let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
+        collectionView.register(textCellNib, forCellWithReuseIdentifier: cellConfiguration.reuseId)
+
+        let reusableViewNib = UINib(nibName: "HeaderCell", bundle: Bundle.main)
+        collectionView.register(reusableViewNib, forSupplementaryViewOfKind: reusableViewConfiguration.viewKind, withReuseIdentifier: reusableViewConfiguration.reuseId)
+
+        let array = [["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona"], ["California", "Colorado", "Connecticut"], ["District of Columbia", "Delaware"], ["Florida"], ["Georgia", "Guam"], ["Hawaii"], ["Iowa", "Idaho", "Illinois", "Indiana"], ["Kansas", "Kentucky"], ["Louisiana"], ["Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana"], ["North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York"], ["Ohio", "Oklahoma", "Oregon"], ["Pennsylvania", "Puerto Rico"], ["Rhode Island"], ["South Carolina", "South Dakota"], ["Tennessee", "Texas"], ["Utah"], ["Virginia", "Virgin Islands", "Vermont"], ["Washington", "Wisconsin", "West Virginia", "Wyoming"]]
+
+        dataSource = CollectionViewDataSource(objects: array, cellConfiguration: cellConfiguration, reusableViewConfiguration: reusableViewConfiguration)
         
         collectionView.dataSource = dataSource
-    }
-}
 
-extension SupplementaryViewsViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0)
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.headerReferenceSize = CGSize(width: 100, height: 50)
+            layout.sectionHeadersPinToVisibleBounds = true
+        }
     }
 }
