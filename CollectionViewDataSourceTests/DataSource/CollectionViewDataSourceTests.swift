@@ -168,6 +168,18 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
             }
 
+            context("optional func collectionView(_:viewForSupplementaryElementOfKind:at:)") {
+                it("Should return a supplementary view from the delegate if one is set") {
+                    self.delegate.shouldReturnSupplementaryView = true
+                    self.unitUnderTest.delegate = self.delegate
+                    self.collectionView.dataSource = self.unitUnderTest
+
+                    let supplementaryView = self.unitUnderTest.collectionView(self.collectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: self.indexPath)
+
+                    expect(supplementaryView).to(beAnInstanceOf(MockSupplementaryView.self))
+                }
+            }
+
             context("numberOfSections(collectionView:)") {
                 it("Should call the delegate if one is set") {
                     self.unitUnderTest.delegate = self.delegate

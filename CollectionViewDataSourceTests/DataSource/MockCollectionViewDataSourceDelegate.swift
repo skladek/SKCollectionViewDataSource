@@ -20,11 +20,11 @@ class MockCollectionViewDataSourceDelegate {
     var shouldReturnSupplementaryView = false
 
     let cell = MockCell()
-    let view = MockSupplementaryView()
+    let supplementaryView = MockSupplementaryView()
 }
 
 class MockCell: UICollectionViewCell {}
-class MockSupplementaryView: UICollectionReusableView {}
+class MockSupplementaryView: HeaderCell {}
 
 extension MockCollectionViewDataSourceDelegate: CollectionViewDataSourceDelegate {
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
@@ -46,7 +46,7 @@ extension MockCollectionViewDataSourceDelegate: CollectionViewDataSourceDelegate
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView? {
-        return shouldReturnSupplementaryView ? view : nil
+        return shouldReturnSupplementaryView ? supplementaryView : nil
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
