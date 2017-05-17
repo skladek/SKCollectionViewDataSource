@@ -220,6 +220,15 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     expect(supplementaryView).to(beAnInstanceOf(MockSupplementaryView.self))
                 }
 
+                it("Should return a supplementary view from the collection view dequeue method if a kind match is found.") {
+                    let reusableViewConfiguration = ReuseableViewConfiguration<String>(reuseId: "reuseId", viewKind: UICollectionElementKindSectionHeader, presenter: nil)
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, reusableViewConfigurations: [reusableViewConfiguration])
+                    let mockCollectionView = MockCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+                    let supplementaryView = self.unitUnderTest.collectionView(mockCollectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: self.indexPath)
+
+                    expect(supplementaryView).to(beAnInstanceOf(HeaderCell.self))
+                }
+
                 it("Should return an empty supplementary view if the kind does not match any reusableViewConfigurations") {
                     self.delegate.shouldReturnSupplementaryView = false
                     self.unitUnderTest.delegate = self.delegate
