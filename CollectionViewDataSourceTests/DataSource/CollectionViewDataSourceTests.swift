@@ -13,6 +13,7 @@ import Quick
 @testable import CollectionViewDataSource
 
 class CollectionViewDataSourceSpec: QuickSpec {
+    var cellConfiguration: CellConfiguration<String>!
     var collectionView: UICollectionView!
     var delegate: MockCollectionViewDataSourceDelegate!
     var indexPath: IndexPath!
@@ -23,18 +24,19 @@ class CollectionViewDataSourceSpec: QuickSpec {
     override func spec() {
         describe("CollectionViewDataSource") {
             beforeEach {
+                self.cellConfiguration = CellConfiguration(reuseId: self.reuseId, presenter: nil)
                 let flowLayout = UICollectionViewFlowLayout()
                 flowLayout.itemSize = CGSize(width: 50, height: 50)
                 self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), collectionViewLayout: flowLayout)
                 self.delegate = MockCollectionViewDataSourceDelegate()
                 self.indexPath = IndexPath(item: 0, section: 0)
-                self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellReuseId: self.reuseId)
+                self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
             }
 
             context("init(objects:cellReuseId:cellPresenter:reusableViewPresenter:)") {
                 beforeEach {
                     let singleLevelObjects = ["S0R0", "S0R1", "S0R2"]
-                    self.unitUnderTest = CollectionViewDataSource(objects: singleLevelObjects, cellReuseId: self.reuseId)
+                    self.unitUnderTest = CollectionViewDataSource(objects: singleLevelObjects, cellConfiguration: self.cellConfiguration)
                 }
 
                 it("Should wrap the objects array in an array and set to objects") {
@@ -49,7 +51,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
 
                 it("Should set the reuse id") {
-                    expect(self.unitUnderTest.reuseId).to(equal(self.reuseId))
+                    expect(self.unitUnderTest.cellConfiguration.reuseId).to(equal(self.reuseId))
                 }
             }
 
@@ -119,20 +121,22 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
 
                 it("should pass the cell to the presenter") {
-                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellReuseId: self.reuseId, cellPresenter: { (cell, object) in
+                    self.cellConfiguration = CellConfiguration(reuseId: self.reuseId, presenter: { (cell, object) in
                         expect(cell).toNot(beNil())
                     })
 
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
                     self.collectionView.dataSource = self.unitUnderTest
                     self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: self.reuseId)
                     let _ = self.unitUnderTest.collectionView(self.collectionView, cellForItemAt: self.indexPath)
                 }
 
                 it("should pass the object to the presenter") {
-                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellReuseId: self.reuseId, cellPresenter: { (cell, object) in
+                    self.cellConfiguration = CellConfiguration(reuseId: self.reuseId, presenter: { (cell, object) in
                         expect(object).to(equal("S0R0"))
                     })
 
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
                     self.collectionView.dataSource = self.unitUnderTest
                     self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: self.reuseId)
                     let _ = self.unitUnderTest.collectionView(self.collectionView, cellForItemAt: self.indexPath)
