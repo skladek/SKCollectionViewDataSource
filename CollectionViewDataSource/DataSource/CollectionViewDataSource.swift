@@ -172,11 +172,12 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return view
         }
 
-        var view = UICollectionReusableView()
-        if let configuration = reusableViewConfigurationMatchingKind(kind) {
-            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: configuration.reuseId, for: indexPath)
-            configureReusableView(view, with: configuration, at: indexPath)
+        guard let configuration = reusableViewConfigurationMatchingKind(kind) else {
+            return UICollectionReusableView()
         }
+
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: configuration.reuseId, for: indexPath)
+        configureReusableView(view, with: configuration, at: indexPath)
 
         return view
     }
