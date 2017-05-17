@@ -29,6 +29,16 @@ protocol CollectionViewDataSourceDelegate {
     optional func numberOfSections(in collectionView: UICollectionView) -> Int
 }
 
+struct CellConfiguration<T> {
+    let reuseId: String
+    let presenter: CollectionViewDataSource<T>.CellPresenter?
+}
+
+struct ReuseableViewConfiguration<T> {
+    let reuseId: String
+    let presenter: CollectionViewDataSource<T>.ReusableViewPresenter?
+}
+
 class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     /// A closure to allow the presenter logic to be injected on init.
@@ -40,23 +50,20 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     var objects: [[T]]
 
-    let reuseId: String
+    let cellConfiguration: CellConfiguration<T>
 
-    fileprivate let cellPresenter: CellPresenter?
-
-    fileprivate let reusableViewPresenter: ReusableViewPresenter?
+    let reusableViewConfiguration: ReuseableViewConfiguration<T>
 
     // MARK: Initializers
 
-    convenience init(objects: [T], cellReuseId: String, cellPresenter: CellPresenter? = nil, reusableViewPresenter: ReusableViewPresenter? = nil) {
-        self.init(objects: [objects], cellReuseId: cellReuseId, cellPresenter: cellPresenter)
+    convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, reusableViewConfiguration: ReuseableViewConfiguration<T>? = nil) {
+        self.init(objects: [objects], cellConfiguration: cellConfiguration, reusableViewConfiguration: reusableViewConfiguration)
     }
 
-    init(objects: [[T]], cellReuseId: String, cellPresenter: CellPresenter? = nil, reusableViewPresenter: ReusableViewPresenter? = nil) {
-        self.cellPresenter = cellPresenter
+    init(objects: [[T]], cellConfiguration: CellConfiguration<T>, reusableViewConfiguration: ReuseableViewConfiguration<T>? = nil) {
+        self.cellConfiguration = cellConfiguration
         self.objects = objects
-        self.reusableViewPresenter = reusableViewPresenter
-        self.reuseId = cellReuseId
+        self.reusableViewConfiguration = reusableViewConfiguration ?? ReuseableViewConfiguration(reuseId: UUID().uuidString, presenter: nil)
     }
 
     // MARK: Public Methods
@@ -111,10 +118,10 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return cell
         }
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellConfiguration.reuseId, for: indexPath)
 
         let object = self.object(indexPath)
-        cellPresenter?(cell, object)
+        cellConfiguration.presenter?(cell, object)
 
         return cell
     }
@@ -139,10 +146,10 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return view
         }
 
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseId, for: indexPath)
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reusableViewConfiguration.reuseId, for: indexPath)
 
         let object = self.object(indexPath)
-        reusableViewPresenter?(view, object)
+        reusableViewConfiguration.presenter?(view, object)
 
         return view
     }

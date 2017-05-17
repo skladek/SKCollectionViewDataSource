@@ -36,16 +36,17 @@ class HomeViewController: UIViewController {
             .supplementaryViews
         ]
 
-        dataSource = CollectionViewDataSource(objects: array, cellReuseId: reuseId, cellPresenter: { (cell, object) in
+        let cellConfiguration = CellConfiguration<Items>(reuseId: reuseId) { (cell, object) in
             guard let cell = cell as? TextCell else {
                 return
             }
 
             cell.label.text = object.rawValue
-        })
+        }
+
+        dataSource = CollectionViewDataSource(objects: array, cellConfiguration: cellConfiguration)
 
         collectionView.dataSource = dataSource
-        collectionView.reloadData()
     }
 }
 
