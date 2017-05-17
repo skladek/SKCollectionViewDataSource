@@ -1,5 +1,5 @@
 //
-//  HeaderCell.swift
+//  FooterCell.swift
 //  CollectionViewDataSource
 //
 //  Created by Sean on 5/17/17.
@@ -8,6 +8,5 @@
 
 import UIKit
 
-class HeaderCell: UICollectionReusableView {
-    @IBOutlet weak var label: UILabel!
+class FooterCell: UICollectionReusableView {
 }

@@ -13,6 +13,8 @@
 		14053BD21ECC94A40094E780 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DFA1ECB6740000E0431 /* Quick.framework */; };
 		14053BD51ECC9C7B0094E780 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14053BD31ECC9C7B0094E780 /* HeaderCell.swift */; };
 		14053BD61ECC9C7B0094E780 /* HeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14053BD41ECC9C7B0094E780 /* HeaderCell.xib */; };
+		14053BD91ECCC07E0094E780 /* FooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14053BD71ECCC07E0094E780 /* FooterCell.swift */; };
+		14053BDA1ECCC07E0094E780 /* FooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14053BD81ECCC07E0094E780 /* FooterCell.xib */; };
 		14F21DD31ECA473B000E0431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21DCC1ECA473B000E0431 /* AppDelegate.swift */; };
 		14F21DD41ECA473B000E0431 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DCD1ECA473B000E0431 /* Assets.xcassets */; };
 		14F21DD51ECA473B000E0431 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DCE1ECA473B000E0431 /* LaunchScreen.storyboard */; };
@@ -46,6 +48,8 @@
 		14053BCE1ECC94450094E780 /* SupplementaryViewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SupplementaryViewsViewController.xib; sourceTree = "<group>"; };
 		14053BD31ECC9C7B0094E780 /* HeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderCell.swift; path = Views/HeaderCell.swift; sourceTree = "<group>"; };
 		14053BD41ECC9C7B0094E780 /* HeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HeaderCell.xib; path = Views/HeaderCell.xib; sourceTree = "<group>"; };
+		14053BD71ECCC07E0094E780 /* FooterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FooterCell.swift; path = Views/FooterCell.swift; sourceTree = "<group>"; };
+		14053BD81ECCC07E0094E780 /* FooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FooterCell.xib; path = Views/FooterCell.xib; sourceTree = "<group>"; };
 		14F21DA81ECA4527000E0431 /* CollectionViewDataSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewDataSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F21DBC1ECA4527000E0431 /* CollectionViewDataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewDataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F21DC21ECA4527000E0431 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,6 +172,8 @@
 		14F21DDE1ECA5457000E0431 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				14053BD71ECCC07E0094E780 /* FooterCell.swift */,
+				14053BD81ECCC07E0094E780 /* FooterCell.xib */,
 				14053BD31ECC9C7B0094E780 /* HeaderCell.swift */,
 				14053BD41ECC9C7B0094E780 /* HeaderCell.xib */,
 				14F21DE31ECA549D000E0431 /* TextCell.swift */,
@@ -282,6 +288,7 @@
 			files = (
 				14F21DEA1ECA5959000E0431 /* SingleSectionViewController.xib in Resources */,
 				14F21DD41ECA473B000E0431 /* Assets.xcassets in Resources */,
+				14053BDA1ECCC07E0094E780 /* FooterCell.xib in Resources */,
 				14F21DEE1ECA5C67000E0431 /* MultipleSectionViewController.xib in Resources */,
 				14053BD01ECC94450094E780 /* SupplementaryViewsViewController.xib in Resources */,
 				14F21DD51ECA473B000E0431 /* LaunchScreen.storyboard in Resources */,
@@ -325,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14053BD91ECCC07E0094E780 /* FooterCell.swift in Sources */,
 				14F21DED1ECA5C67000E0431 /* MultipleSectionViewController.swift in Sources */,
 				14F21DE91ECA5959000E0431 /* SingleSectionViewController.swift in Sources */,
 				14F21DD31ECA473B000E0431 /* AppDelegate.swift in Sources */,
