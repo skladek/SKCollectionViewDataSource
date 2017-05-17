@@ -34,10 +34,10 @@ struct CellConfiguration<T> {
     let presenter: CollectionViewDataSource<T>.CellPresenter?
 }
 
-struct ReuseableViewConfiguration<T> {
+struct SupplementaryViewConfiguration<T> {
     let reuseId: String
     let viewKind: String
-    let presenter: CollectionViewDataSource<T>.ReusableViewPresenter?
+    let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
 }
 
 class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
@@ -45,7 +45,7 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     /// A closure to allow the presenter logic to be injected on init.
     typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> ()
 
-    typealias ReusableViewPresenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> ()
+    typealias SupplementaryViewPresenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> ()
 
     weak var delegate: CollectionViewDataSourceDelegate?
 
@@ -53,30 +53,30 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     let cellConfiguration: CellConfiguration<T>
 
-    let reusableViewConfigurations: [ReuseableViewConfiguration<T>]
+    let supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]
 
     // MARK: Initializers
 
-    convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, reusableViewConfigurations: [ReuseableViewConfiguration<T>]? = nil) {
-        self.init(objects: [objects], cellConfiguration: cellConfiguration, reusableViewConfigurations: reusableViewConfigurations)
+    convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        self.init(objects: [objects], cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
     }
 
-    init(objects: [[T]], cellConfiguration: CellConfiguration<T>, reusableViewConfigurations: [ReuseableViewConfiguration<T>]? = nil) {
+    init(objects: [[T]], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.cellConfiguration = cellConfiguration
         self.objects = objects
-        self.reusableViewConfigurations = reusableViewConfigurations ?? []
+        self.supplementaryViewConfigurations = supplementaryViewConfigurations
     }
 
     // MARK: Public Methods
 
-    /// Configures the reusable view using the optional presenter in the configuration object. Note, this method should
+    /// Configures the supplementary view using the optional presenter in the configuration object. Note, this method should
     /// not be called directly. It is only exposed for the sake of unit testing.
     ///
     /// - Parameters:
     ///   - view: The view to configure.
     ///   - configuration: The configuration object to use to configure the view.
     ///   - indexPath: The index path that the view was accessed using.
-    func configureReusableView(_ view: UICollectionReusableView, with configuration: ReuseableViewConfiguration<T>, at indexPath: IndexPath) {
+    func configureSupplementaryView(_ view: UICollectionReusableView, with configuration: SupplementaryViewConfiguration<T>, at indexPath: IndexPath) {
         configuration.presenter?(view, indexPath.section)
     }
 
@@ -105,8 +105,8 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     ///
     /// - Parameter kind: The kind string to match against. This should be provided by the collection view.
     /// - Returns: The configuration matching the kind or nil if there is no match.
-    func reusableViewConfigurationMatchingKind(_ kind: String) -> ReuseableViewConfiguration<T>? {
-        for configuration in reusableViewConfigurations {
+    func supplementaryViewConfigurationMatchingKind(_ kind: String) -> SupplementaryViewConfiguration<T>? {
+        for configuration in supplementaryViewConfigurations {
             if kind == configuration.viewKind {
                 return configuration
             }
@@ -172,12 +172,12 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return view
         }
 
-        guard let configuration = reusableViewConfigurationMatchingKind(kind) else {
+        guard let configuration = supplementaryViewConfigurationMatchingKind(kind) else {
             return UICollectionReusableView()
         }
 
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: configuration.reuseId, for: indexPath)
-        configureReusableView(view, with: configuration, at: indexPath)
+        configureSupplementaryView(view, with: configuration, at: indexPath)
 
         return view
     }

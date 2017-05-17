@@ -25,7 +25,7 @@ class SupplementaryViewsViewController: UIViewController {
             cell.label.text = object
         }
 
-        let headerConfiguration = ReuseableViewConfiguration<String>(reuseId: "HeaderViewReuseId", viewKind: UICollectionElementKindSectionHeader) { (view, section) in
+        let headerConfiguration = SupplementaryViewConfiguration<String>(reuseId: "HeaderViewReuseId", viewKind: UICollectionElementKindSectionHeader) { (view, section) in
             guard let view = view as? HeaderCell else {
                 return
             }
@@ -39,7 +39,7 @@ class SupplementaryViewsViewController: UIViewController {
             view.label.text = firstLetter
         }
 
-        let footerConfiguration = ReuseableViewConfiguration<String>(reuseId: "FooterViewReuseId", viewKind: UICollectionElementKindSectionFooter) { (view, section) in
+        let footerConfiguration = SupplementaryViewConfiguration<String>(reuseId: "FooterViewReuseId", viewKind: UICollectionElementKindSectionFooter) { (view, section) in
             guard let view = view as? FooterCell else {
                 return
             }
@@ -58,7 +58,7 @@ class SupplementaryViewsViewController: UIViewController {
 
         let array = [["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona"], ["California", "Colorado", "Connecticut"], ["District of Columbia", "Delaware"], ["Florida"], ["Georgia", "Guam"], ["Hawaii"], ["Iowa", "Idaho", "Illinois", "Indiana"], ["Kansas", "Kentucky"], ["Louisiana"], ["Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana"], ["North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York"], ["Ohio", "Oklahoma", "Oregon"], ["Pennsylvania", "Puerto Rico"], ["Rhode Island"], ["South Carolina", "South Dakota"], ["Tennessee", "Texas"], ["Utah"], ["Virginia", "Virgin Islands", "Vermont"], ["Washington", "Wisconsin", "West Virginia", "Wyoming"]]
 
-        dataSource = CollectionViewDataSource(objects: array, cellConfiguration: cellConfiguration, reusableViewConfigurations: [headerConfiguration, footerConfiguration])
+        dataSource = CollectionViewDataSource(objects: array, cellConfiguration: cellConfiguration, supplementaryViewConfigurations: [headerConfiguration, footerConfiguration])
         
         collectionView.dataSource = dataSource
 
