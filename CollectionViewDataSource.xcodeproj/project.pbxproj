@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14053BCF1ECC94450094E780 /* SupplementaryViewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14053BCD1ECC94450094E780 /* SupplementaryViewsViewController.swift */; };
+		14053BD01ECC94450094E780 /* SupplementaryViewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14053BCE1ECC94450094E780 /* SupplementaryViewsViewController.xib */; };
+		14053BD11ECC94A10094E780 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DF91ECB6740000E0431 /* Nimble.framework */; };
+		14053BD21ECC94A40094E780 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DFA1ECB6740000E0431 /* Quick.framework */; };
+		14053BD51ECC9C7B0094E780 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14053BD31ECC9C7B0094E780 /* HeaderCell.swift */; };
+		14053BD61ECC9C7B0094E780 /* HeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14053BD41ECC9C7B0094E780 /* HeaderCell.xib */; };
 		14F21DD31ECA473B000E0431 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21DCC1ECA473B000E0431 /* AppDelegate.swift */; };
 		14F21DD41ECA473B000E0431 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DCD1ECA473B000E0431 /* Assets.xcassets */; };
 		14F21DD51ECA473B000E0431 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DCE1ECA473B000E0431 /* LaunchScreen.storyboard */; };
@@ -21,8 +27,6 @@
 		14F21DEE1ECA5C67000E0431 /* MultipleSectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DEC1ECA5C67000E0431 /* MultipleSectionViewController.xib */; };
 		14F21DF71ECB5ED7000E0431 /* ReorderableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21DF51ECB5ED7000E0431 /* ReorderableViewController.swift */; };
 		14F21DF81ECB5ED7000E0431 /* ReorderableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */; };
-		14F21DFB1ECB6740000E0431 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DF91ECB6740000E0431 /* Nimble.framework */; };
-		14F21DFC1ECB6740000E0431 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F21DFA1ECB6740000E0431 /* Quick.framework */; };
 		14F21E051ECB6EF9000E0431 /* CollectionViewDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21E041ECB6EF9000E0431 /* CollectionViewDataSourceTests.swift */; };
 		14F21E071ECB6F1B000E0431 /* MockCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F21E061ECB6F1B000E0431 /* MockCollectionViewDataSourceDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14053BCD1ECC94450094E780 /* SupplementaryViewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupplementaryViewsViewController.swift; sourceTree = "<group>"; };
+		14053BCE1ECC94450094E780 /* SupplementaryViewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SupplementaryViewsViewController.xib; sourceTree = "<group>"; };
+		14053BD31ECC9C7B0094E780 /* HeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderCell.swift; path = Views/HeaderCell.swift; sourceTree = "<group>"; };
+		14053BD41ECC9C7B0094E780 /* HeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HeaderCell.xib; path = Views/HeaderCell.xib; sourceTree = "<group>"; };
 		14F21DA81ECA4527000E0431 /* CollectionViewDataSource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionViewDataSource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F21DBC1ECA4527000E0431 /* CollectionViewDataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionViewDataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14F21DC21ECA4527000E0431 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,8 +75,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14F21DFC1ECB6740000E0431 /* Quick.framework in Frameworks */,
-				14F21DFB1ECB6740000E0431 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +82,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14053BD21ECC94A40094E780 /* Quick.framework in Frameworks */,
+				14053BD11ECC94A10094E780 /* Nimble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +159,8 @@
 				14F21DF61ECB5ED7000E0431 /* ReorderableViewController.xib */,
 				14F21DE71ECA5959000E0431 /* SingleSectionViewController.swift */,
 				14F21DE81ECA5959000E0431 /* SingleSectionViewController.xib */,
+				14053BCD1ECC94450094E780 /* SupplementaryViewsViewController.swift */,
+				14053BCE1ECC94450094E780 /* SupplementaryViewsViewController.xib */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -158,6 +168,8 @@
 		14F21DDE1ECA5457000E0431 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				14053BD31ECC9C7B0094E780 /* HeaderCell.swift */,
+				14053BD41ECC9C7B0094E780 /* HeaderCell.xib */,
 				14F21DE31ECA549D000E0431 /* TextCell.swift */,
 				14F21DE41ECA549D000E0431 /* TextCell.xib */,
 			);
@@ -271,9 +283,11 @@
 				14F21DEA1ECA5959000E0431 /* SingleSectionViewController.xib in Resources */,
 				14F21DD41ECA473B000E0431 /* Assets.xcassets in Resources */,
 				14F21DEE1ECA5C67000E0431 /* MultipleSectionViewController.xib in Resources */,
+				14053BD01ECC94450094E780 /* SupplementaryViewsViewController.xib in Resources */,
 				14F21DD51ECA473B000E0431 /* LaunchScreen.storyboard in Resources */,
 				14F21DE61ECA549D000E0431 /* TextCell.xib in Resources */,
 				14F21DDA1ECA4781000E0431 /* HomeViewController.xib in Resources */,
+				14053BD61ECC9C7B0094E780 /* HeaderCell.xib in Resources */,
 				14F21DF81ECB5ED7000E0431 /* ReorderableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,9 +329,11 @@
 				14F21DE91ECA5959000E0431 /* SingleSectionViewController.swift in Sources */,
 				14F21DD31ECA473B000E0431 /* AppDelegate.swift in Sources */,
 				14F21DF71ECB5ED7000E0431 /* ReorderableViewController.swift in Sources */,
+				14053BD51ECC9C7B0094E780 /* HeaderCell.swift in Sources */,
 				14F21DDC1ECA49A2000E0431 /* CollectionViewDataSource.swift in Sources */,
 				14F21DE51ECA549D000E0431 /* TextCell.swift in Sources */,
 				14F21DD91ECA4781000E0431 /* HomeViewController.swift in Sources */,
+				14053BCF1ECC94450094E780 /* SupplementaryViewsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

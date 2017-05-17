@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
         case singleSection = "Single Section Collection View"
         case multipleSection = "Multiple Section Collection View"
         case reorderable = "Reorderable Collection View"
+        case supplementaryViews = "Supplementary Views"
     }
 
     var dataSource: CollectionViewDataSource<Items>?
@@ -32,17 +33,19 @@ class HomeViewController: UIViewController {
             .singleSection,
             .multipleSection,
             .reorderable,
+            .supplementaryViews
         ]
 
-        dataSource = CollectionViewDataSource(objects: array, cellReuseId: reuseId) { (cell, object) in
+        dataSource = CollectionViewDataSource(objects: array, cellReuseId: reuseId, cellPresenter: { (cell, object) in
             guard let cell = cell as? TextCell else {
                 return
             }
 
             cell.label.text = object.rawValue
-        }
+        })
 
         collectionView.dataSource = dataSource
+        collectionView.reloadData()
     }
 }
 
@@ -61,6 +64,8 @@ extension HomeViewController: UICollectionViewDelegate {
             viewController = MultipleSectionViewController()
         case .reorderable:
             viewController = ReorderableViewController()
+        case .supplementaryViews:
+            viewController = SupplementaryViewsViewController()
         }
 
         if let viewController = viewController {
