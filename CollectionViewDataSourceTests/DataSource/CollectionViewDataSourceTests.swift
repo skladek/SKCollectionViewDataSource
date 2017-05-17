@@ -55,6 +55,27 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
             }
 
+            context("configureReusableView(_:with:at:)") {
+                it("should return the view through the configuration's presenter") {
+                    let supplementaryView = MockSupplementaryView()
+                    let configuration = ReuseableViewConfiguration<String>(reuseId: "", viewKind: "", presenter: { (view, section) in
+                        expect(view).to(beIdenticalTo(supplementaryView))
+                    })
+
+                    self.unitUnderTest.configureReusableView(supplementaryView, with: configuration, at: self.indexPath)
+                }
+
+                it("should return the section through the configurations presenter") {
+                    let supplementaryView = MockSupplementaryView()
+                    let indexPath = IndexPath(item: 0, section: 7)
+                    let configuration = ReuseableViewConfiguration<String>(reuseId: "", viewKind: "", presenter: { (view, section) in
+                        expect(section).to(equal(7))
+                    })
+
+                    self.unitUnderTest.configureReusableView(supplementaryView, with: configuration, at: indexPath)
+                }
+            }
+
             context("moveFrom(_:to:)") {
                 it("Should move the object at the from index path to the to index path") {
                     let fromIndexPath = IndexPath(row: 1, section: 0)
@@ -73,6 +94,26 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let indexPath = IndexPath(row: 1, section: 1)
 
                     expect(self.unitUnderTest.object(indexPath)).to(equal("S1R1"))
+                }
+            }
+
+            context("reusableViewConfigurationMatchingKind(_:)") {
+                it("should return the configuration that matches the supplied kind") {
+                    let config1 = ReuseableViewConfiguration<String>(reuseId: "", viewKind: "kind1", presenter: nil)
+                    let config2 = ReuseableViewConfiguration<String>(reuseId: "", viewKind: "kind2", presenter: nil)
+
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, reusableViewConfigurations: [config1, config2])
+
+                    expect(self.unitUnderTest.reusableViewConfigurationMatchingKind("kind2")?.viewKind).to(equal("kind2"))
+                }
+
+                it("should return nil if no configuration matches the supplied kind") {
+                    let config1 = ReuseableViewConfiguration<String>(reuseId: "", viewKind: "kind1", presenter: nil)
+                    let config2 = ReuseableViewConfiguration<String>(reuseId: "", viewKind: "kind2", presenter: nil)
+
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, reusableViewConfigurations: [config1, config2])
+
+                    expect(self.unitUnderTest.reusableViewConfigurationMatchingKind("kind3")).to(beNil())
                 }
             }
 
@@ -177,6 +218,17 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let supplementaryView = self.unitUnderTest.collectionView(self.collectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: self.indexPath)
 
                     expect(supplementaryView).to(beAnInstanceOf(MockSupplementaryView.self))
+                }
+
+                it("Should return an empty supplementary view if the kind does not match any reusableViewConfigurations") {
+                    self.delegate.shouldReturnSupplementaryView = false
+                    self.unitUnderTest.delegate = self.delegate
+                    self.collectionView.dataSource = self.unitUnderTest
+
+                    let supplementaryView = self.unitUnderTest.collectionView(self.collectionView, viewForSupplementaryElementOfKind: "Unknown Kind", at: self.indexPath)
+
+                    expect(supplementaryView).to(beAnInstanceOf(UICollectionReusableView.self))
+                    expect(supplementaryView.subviews.count).to(equal(0))
                 }
             }
 

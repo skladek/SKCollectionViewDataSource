@@ -69,6 +69,17 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: Public Methods
 
+    /// Configures the reusable view using the optional presenter in the configuration object. Note, this method should
+    /// not be called directly. It is only exposed for the sake of unit testing.
+    ///
+    /// - Parameters:
+    ///   - view: The view to configure.
+    ///   - configuration: The configuration object to use to configure the view.
+    ///   - indexPath: The index path that the view was accessed using.
+    func configureReusableView(_ view: UICollectionReusableView, with configuration: ReuseableViewConfiguration<T>, at indexPath: IndexPath) {
+        configuration.presenter?(view, indexPath.section)
+    }
+
     /// Moves the object at the source index path to the destination index path.
     ///
     /// - Parameters:
@@ -88,6 +99,20 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         let section = sectionArray(indexPath)
 
         return section[indexPath.row]
+    }
+
+    /// Returns a configuration matching the specified kind string.
+    ///
+    /// - Parameter kind: The kind string to match against. This should be provided by the collection view.
+    /// - Returns: The configuration matching the kind or nil if there is no match.
+    func reusableViewConfigurationMatchingKind(_ kind: String) -> ReuseableViewConfiguration<T>? {
+        for configuration in reusableViewConfigurations {
+            if kind == configuration.viewKind {
+                return configuration
+            }
+        }
+
+        return nil
     }
 
     // MARK: Private Methods
@@ -148,12 +173,9 @@ class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         }
 
         var view = UICollectionReusableView()
-
-        for configuration in reusableViewConfigurations {
-            if kind == configuration.viewKind {
-                view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: configuration.reuseId, for: indexPath)
-                configuration.presenter?(view, indexPath.section)
-            }
+        if let configuration = reusableViewConfigurationMatchingKind(kind) {
+            view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: configuration.reuseId, for: indexPath)
+            configureReusableView(view, with: configuration, at: indexPath)
         }
 
         return view
