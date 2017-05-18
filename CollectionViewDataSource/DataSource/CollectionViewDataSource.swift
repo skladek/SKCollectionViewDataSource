@@ -29,38 +29,70 @@ protocol CollectionViewDataSourceDelegate {
     optional func numberOfSections(in collectionView: UICollectionView) -> Int
 }
 
+
+/// Provides a configuration object for collection view cells.
 struct CellConfiguration<T> {
+    /// The cell's reuse identifier
     let reuseId: String
+
+    /// The presenter closure that can be used to inject cell styling and further configuration.
     let presenter: CollectionViewDataSource<T>.CellPresenter?
 }
 
+/// Provides a configuration object for collection view supplementary views.
 struct SupplementaryViewConfiguration<T> {
+    /// The view's reuse id.
     let reuseId: String
+
+    /// The kind of supplementary view.
     let viewKind: String
+
+    /// The presenter closure that can be used to inject view styling and further configuration.
     let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
 }
 
 class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
-    /// A closure to allow the presenter logic to be injected on init.
+    // MARK: Class Types
+
+    /// A closure to allow the presenter logic to be injected.
     typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> ()
 
+    /// A closure to allow the presenter logic to be injected.
     typealias SupplementaryViewPresenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> ()
 
+    // MARK: Public Variables
+
+    /// The object that acts as the delegate to the data source.
     weak var delegate: CollectionViewDataSourceDelegate?
 
+    /// The array of objects backingthe collection view.
     var objects: [[T]]
 
+    /// The object controlling the configuration of cells.
     let cellConfiguration: CellConfiguration<T>
 
+    /// An array of objects controlling the configuration of supplementary views. Each supplementary view kind should have its own configuration object.
     let supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]
 
     // MARK: Initializers
 
+    /// Initializes a data source with an array of objects.
+    ///
+    /// - Parameters:
+    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section table view.
+    ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
+    ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
     convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.init(objects: [objects], cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
     }
 
+    /// Initializes a data source with an array of objects.
+    ///
+    /// - Parameters:
+    ///   - objects: The objects array to display.
+    ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
+    ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
     init(objects: [[T]], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.cellConfiguration = cellConfiguration
         self.objects = objects
