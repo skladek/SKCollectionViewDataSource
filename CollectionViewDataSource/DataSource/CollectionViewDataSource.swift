@@ -31,12 +31,16 @@ public protocol CollectionViewDataSourceDelegate {
 
 /// Provides a configuration object for collection view cells.
 public struct CellConfiguration<T> {
-    /// The presenter closure that can be used to inject cell styling and further configuration.
     let presenter: CollectionViewDataSource<T>.CellPresenter?
 
     /// The cell's reuse identifier
     public let reuseId: String
 
+    /// Initializes a cell configuration object.
+    ///
+    /// - Parameters:
+    ///   - reuseId: The cell's reuse identifier
+    ///   - presenter: An optional closure that can be used to inject cell styling and further configuration.
     public init(reuseId: String, presenter: CollectionViewDataSource<T>.CellPresenter?) {
         self.presenter = presenter
         self.reuseId = reuseId
@@ -45,7 +49,6 @@ public struct CellConfiguration<T> {
 
 /// Provides a configuration object for collection view supplementary views.
 public struct SupplementaryViewConfiguration<T> {
-    /// The presenter closure that can be used to inject view styling and further configuration.
     let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
 
     /// The view's reuse id.
@@ -54,6 +57,12 @@ public struct SupplementaryViewConfiguration<T> {
     /// The kind of supplementary view.
     public let viewKind: String
 
+    /// Initializes a supplementary view configuration object.
+    ///
+    /// - Parameters:
+    ///   - reuseId: The view's reuse identifier
+    ///   - viewKind: The kind of supplementary view
+    ///   - presenter: An optional closure that can be used to inject view styling and further configuration.
     public init(reuseId: String, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
         self.presenter = presenter
         self.reuseId = reuseId
@@ -76,14 +85,15 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     /// The object that acts as the delegate to the data source.
     public weak var delegate: CollectionViewDataSourceDelegate?
 
-    /// The array of objects backingthe collection view.
-    var objects: [[T]]
-
     /// The object controlling the configuration of cells.
     public let cellConfiguration: CellConfiguration<T>
 
     /// An array of objects controlling the configuration of supplementary views. Each supplementary view kind should have its own configuration object.
     public let supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]
+
+    // MARK: Internal Variables
+
+    var objects: [[T]]
 
     // MARK: Initializers
 
