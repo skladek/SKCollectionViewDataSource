@@ -3,8 +3,13 @@ fastlane_version "2.27.0"
 default_platform :ios
 
 lane :test do
+  cocoapods(
+  	repo_update: true
+  )
+
   scan(
   	device: "iPad Air",
-    scheme: "CollectionViewDataSource"
+    scheme: "CollectionViewDataSource",
+    workspace: "CollectionViewDataSource.xcworkspace"
   )
 end
