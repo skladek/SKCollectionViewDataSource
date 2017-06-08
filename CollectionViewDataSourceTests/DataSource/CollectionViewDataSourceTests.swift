@@ -9,6 +9,7 @@
 import Foundation
 import Nimble
 import Quick
+import UIKit
 
 @testable import CollectionViewDataSource
 
@@ -226,9 +227,9 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let mockCollectionView = MockCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
                     let supplementaryView = self.unitUnderTest.collectionView(mockCollectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: self.indexPath)
 
-                    expect(supplementaryView).to(beAnInstanceOf(HeaderCell.self))
+                    expect(supplementaryView).to(beAnInstanceOf(SecondaryMockSupplementaryView.self))
                 }
-
+                
                 it("Should return an empty supplementary view if the kind does not match any reusableViewConfigurations") {
                     self.delegate.shouldReturnSupplementaryView = false
                     self.unitUnderTest.delegate = self.delegate

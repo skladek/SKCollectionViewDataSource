@@ -1,0 +1,8 @@
+included:
+  - CollectionViewDataSource
+
+excluded:
+  - Pods
+
+disabled_rules:
+  - line_length
