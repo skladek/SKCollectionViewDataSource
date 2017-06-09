@@ -9,7 +9,7 @@ lane :test do
 
   scan(
     device: "iPad Air",
-    scheme: "CollectionViewDataSource",
-    workspace: "CollectionViewDataSource.xcworkspace"
+    scheme: "SKCollectionViewDataSource",
+    workspace: "SKCollectionViewDataSource.xcworkspace"
   )
 end
