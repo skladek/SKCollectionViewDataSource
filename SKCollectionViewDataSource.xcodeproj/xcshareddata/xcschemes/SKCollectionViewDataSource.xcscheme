@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14714B051EE9980400178DEC"
-               BuildableName = "CollectionViewDataSource.framework"
-               BlueprintName = "CollectionViewDataSource"
-               ReferencedContainer = "container:CollectionViewDataSource.xcodeproj">
+               BlueprintIdentifier = "1457B8941EEB41C100F9495E"
+               BuildableName = "SKCollectionViewDataSource.framework"
+               BlueprintName = "SKCollectionViewDataSource"
+               ReferencedContainer = "container:SKCollectionViewDataSource.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,20 +33,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "14714B0E1EE9980400178DEC"
-               BuildableName = "CollectionViewDataSourceTests.xctest"
-               BlueprintName = "CollectionViewDataSourceTests"
-               ReferencedContainer = "container:CollectionViewDataSource.xcodeproj">
+               BlueprintIdentifier = "1457B89D1EEB41C100F9495E"
+               BuildableName = "SKCollectionViewDataSourceTests.xctest"
+               BlueprintName = "SKCollectionViewDataSourceTests"
+               ReferencedContainer = "container:SKCollectionViewDataSource.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14714B051EE9980400178DEC"
-            BuildableName = "CollectionViewDataSource.framework"
-            BlueprintName = "CollectionViewDataSource"
-            ReferencedContainer = "container:CollectionViewDataSource.xcodeproj">
+            BlueprintIdentifier = "1457B8941EEB41C100F9495E"
+            BuildableName = "SKCollectionViewDataSource.framework"
+            BlueprintName = "SKCollectionViewDataSource"
+            ReferencedContainer = "container:SKCollectionViewDataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,10 +65,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14714B051EE9980400178DEC"
-            BuildableName = "CollectionViewDataSource.framework"
-            BlueprintName = "CollectionViewDataSource"
-            ReferencedContainer = "container:CollectionViewDataSource.xcodeproj">
+            BlueprintIdentifier = "1457B8941EEB41C100F9495E"
+            BuildableName = "SKCollectionViewDataSource.framework"
+            BlueprintName = "SKCollectionViewDataSource"
+            ReferencedContainer = "container:SKCollectionViewDataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,10 +83,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "14714B051EE9980400178DEC"
-            BuildableName = "CollectionViewDataSource.framework"
-            BlueprintName = "CollectionViewDataSource"
-            ReferencedContainer = "container:CollectionViewDataSource.xcodeproj">
+            BlueprintIdentifier = "1457B8941EEB41C100F9495E"
+            BuildableName = "SKCollectionViewDataSource.framework"
+            BlueprintName = "SKCollectionViewDataSource"
+            ReferencedContainer = "container:SKCollectionViewDataSource.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

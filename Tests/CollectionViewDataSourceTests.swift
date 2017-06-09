@@ -11,7 +11,7 @@ import Nimble
 import Quick
 import UIKit
 
-@testable import CollectionViewDataSource
+@testable import SKCollectionViewDataSource
 
 class CollectionViewDataSourceSpec: QuickSpec {
     var cellConfiguration: CellConfiguration<String>!

@@ -27,8 +27,8 @@
 		144BF1D71EE99E9A000FC4D2 /* HeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 144BF1C21EE99E9A000FC4D2 /* HeaderCell.xib */; };
 		144BF1D81EE99E9A000FC4D2 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144BF1C31EE99E9A000FC4D2 /* TextCell.swift */; };
 		144BF1D91EE99E9A000FC4D2 /* TextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 144BF1C41EE99E9A000FC4D2 /* TextCell.xib */; };
-		1491AE851EE99F69009211A9 /* CollectionViewDataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1491AE821EE99F56009211A9 /* CollectionViewDataSource.framework */; };
-		1491AE861EE99F69009211A9 /* CollectionViewDataSource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1491AE821EE99F56009211A9 /* CollectionViewDataSource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		14FA6F8C1EEB46AE006DE6CC /* SKCollectionViewDataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FA6F891EEB4684006DE6CC /* SKCollectionViewDataSource.framework */; };
+		14FA6F8D1EEB46AE006DE6CC /* SKCollectionViewDataSource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 14FA6F891EEB4684006DE6CC /* SKCollectionViewDataSource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,26 +39,26 @@
 			remoteGlobalIDString = 144BF1871EE99E11000FC4D2;
 			remoteInfo = SampleProject;
 		};
-		1491AE811EE99F56009211A9 /* PBXContainerItemProxy */ = {
+		14FA6F881EEB4684006DE6CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1491AE7C1EE99F56009211A9 /* CollectionViewDataSource.xcodeproj */;
+			containerPortal = 14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 14714B061EE9980400178DEC;
-			remoteInfo = CollectionViewDataSource;
+			remoteGlobalIDString = 1457B8951EEB41C100F9495E;
+			remoteInfo = SKCollectionViewDataSource;
 		};
-		1491AE831EE99F56009211A9 /* PBXContainerItemProxy */ = {
+		14FA6F8A1EEB4684006DE6CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1491AE7C1EE99F56009211A9 /* CollectionViewDataSource.xcodeproj */;
+			containerPortal = 14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 14714B0F1EE9980400178DEC;
-			remoteInfo = CollectionViewDataSourceTests;
+			remoteGlobalIDString = 1457B89E1EEB41C100F9495E;
+			remoteInfo = SKCollectionViewDataSourceTests;
 		};
-		1491AE871EE99F69009211A9 /* PBXContainerItemProxy */ = {
+		14FA6F8E1EEB46AE006DE6CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1491AE7C1EE99F56009211A9 /* CollectionViewDataSource.xcodeproj */;
+			containerPortal = 14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 14714B051EE9980400178DEC;
-			remoteInfo = CollectionViewDataSource;
+			remoteGlobalIDString = 1457B8941EEB41C100F9495E;
+			remoteInfo = SKCollectionViewDataSource;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -69,7 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1491AE861EE99F69009211A9 /* CollectionViewDataSource.framework in Embed Frameworks */,
+				14FA6F8D1EEB46AE006DE6CC /* SKCollectionViewDataSource.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,7 +101,7 @@
 		144BF1C21EE99E9A000FC4D2 /* HeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderCell.xib; sourceTree = "<group>"; };
 		144BF1C31EE99E9A000FC4D2 /* TextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		144BF1C41EE99E9A000FC4D2 /* TextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextCell.xib; sourceTree = "<group>"; };
-		1491AE7C1EE99F56009211A9 /* CollectionViewDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CollectionViewDataSource.xcodeproj; sourceTree = "<group>"; };
+		14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SKCollectionViewDataSource.xcodeproj; path = ../SKCollectionViewDataSource.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1491AE851EE99F69009211A9 /* CollectionViewDataSource.framework in Frameworks */,
+				14FA6F8C1EEB46AE006DE6CC /* SKCollectionViewDataSource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +129,7 @@
 				144BF18A1EE99E11000FC4D2 /* SampleProject */,
 				144BF19F1EE99E11000FC4D2 /* SampleProjectTests */,
 				144BF1891EE99E11000FC4D2 /* Products */,
-				1491AE7C1EE99F56009211A9 /* CollectionViewDataSource.xcodeproj */,
+				14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,11 +202,11 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		1491AE7D1EE99F56009211A9 /* Products */ = {
+		14FA6F841EEB4684006DE6CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1491AE821EE99F56009211A9 /* CollectionViewDataSource.framework */,
-				1491AE841EE99F56009211A9 /* CollectionViewDataSourceTests.xctest */,
+				14FA6F891EEB4684006DE6CC /* SKCollectionViewDataSource.framework */,
+				14FA6F8B1EEB4684006DE6CC /* SKCollectionViewDataSourceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -226,7 +226,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1491AE881EE99F69009211A9 /* PBXTargetDependency */,
+				14FA6F8F1EEB46AE006DE6CC /* PBXTargetDependency */,
 			);
 			name = SampleProject;
 			productName = SampleProject;
@@ -287,8 +287,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1491AE7D1EE99F56009211A9 /* Products */;
-					ProjectRef = 1491AE7C1EE99F56009211A9 /* CollectionViewDataSource.xcodeproj */;
+					ProductGroup = 14FA6F841EEB4684006DE6CC /* Products */;
+					ProjectRef = 14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -300,18 +300,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1491AE821EE99F56009211A9 /* CollectionViewDataSource.framework */ = {
+		14FA6F891EEB4684006DE6CC /* SKCollectionViewDataSource.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = CollectionViewDataSource.framework;
-			remoteRef = 1491AE811EE99F56009211A9 /* PBXContainerItemProxy */;
+			path = SKCollectionViewDataSource.framework;
+			remoteRef = 14FA6F881EEB4684006DE6CC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1491AE841EE99F56009211A9 /* CollectionViewDataSourceTests.xctest */ = {
+		14FA6F8B1EEB4684006DE6CC /* SKCollectionViewDataSourceTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = CollectionViewDataSourceTests.xctest;
-			remoteRef = 1491AE831EE99F56009211A9 /* PBXContainerItemProxy */;
+			path = SKCollectionViewDataSourceTests.xctest;
+			remoteRef = 14FA6F8A1EEB4684006DE6CC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -376,10 +376,10 @@
 			target = 144BF1871EE99E11000FC4D2 /* SampleProject */;
 			targetProxy = 144BF19D1EE99E11000FC4D2 /* PBXContainerItemProxy */;
 		};
-		1491AE881EE99F69009211A9 /* PBXTargetDependency */ = {
+		14FA6F8F1EEB46AE006DE6CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = CollectionViewDataSource;
-			targetProxy = 1491AE871EE99F69009211A9 /* PBXContainerItemProxy */;
+			name = SKCollectionViewDataSource;
+			targetProxy = 14FA6F8E1EEB46AE006DE6CC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

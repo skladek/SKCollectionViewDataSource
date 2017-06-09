@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@testable import CollectionViewDataSource
+@testable import SKCollectionViewDataSource
 
 class MockCollectionViewDataSourceDelegate {
     var canMoveItemCalled = false

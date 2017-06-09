@@ -6,7 +6,7 @@
 //  Copyright © 2017 Sean Kladek. All rights reserved.
 //
 
-import CollectionViewDataSource
+import SKCollectionViewDataSource
 import UIKit
 
 class SupplementaryViewsViewController: UIViewController {

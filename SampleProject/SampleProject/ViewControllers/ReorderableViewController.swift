@@ -1,24 +1,45 @@
 //
-//  MultipleSectionViewController.swift
+//  ReorderableViewController.swift
 //  CollectionViewDataSource
 //
-//  Created by Sean on 5/15/17.
+//  Created by Sean on 5/16/17.
 //  Copyright © 2017 Sean Kladek. All rights reserved.
 //
 
-import CollectionViewDataSource
+import SKCollectionViewDataSource
 import UIKit
 
-class MultipleSectionViewController: UIViewController {
+class ReorderableViewController: UIViewController {
 
     var dataSource: CollectionViewDataSource<String>?
 
     @IBOutlet weak var collectionView: UICollectionView!
 
+    func longPress(gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView)) else {
+                break
+            }
+
+            collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            guard let gestureView = gesture.view else {
+                break
+            }
+
+            collectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gestureView))
+        case UIGestureRecognizerState.ended:
+            collectionView.endInteractiveMovement()
+        default:
+            collectionView.cancelInteractiveMovement()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let reuseId = "MultipleSectionViewControllerReuseId"
+        let reuseId = "ReorderableViewControllerReuseId"
 
         let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
         collectionView.register(textCellNib, forCellWithReuseIdentifier: reuseId)
@@ -36,5 +57,15 @@ class MultipleSectionViewController: UIViewController {
         dataSource = CollectionViewDataSource(objects: array, cellConfiguration: cellConfiguration)
 
         collectionView.dataSource = dataSource
+        dataSource?.delegate = self
+
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ReorderableViewController.longPress(gesture:)))
+        self.collectionView.addGestureRecognizer(longPressRecognizer)
+    }
+}
+
+extension ReorderableViewController: CollectionViewDataSourceDelegate {
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        dataSource?.moveFrom(sourceIndexPath, to: destinationIndexPath)
     }
 }
