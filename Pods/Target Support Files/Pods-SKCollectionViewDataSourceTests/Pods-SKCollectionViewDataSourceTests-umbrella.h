@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_CollectionViewDataSourceVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_CollectionViewDataSourceVersionString[];
+FOUNDATION_EXPORT double Pods_SKCollectionViewDataSourceTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_SKCollectionViewDataSourceTestsVersionString[];
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-@testable import CollectionViewDataSource
+@testable import SKCollectionViewDataSource
 
 class SecondaryMockSupplementaryView: MockSupplementaryView {}
 

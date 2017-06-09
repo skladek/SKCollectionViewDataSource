@@ -1,3 +1,3 @@
-# CollectionViewDataSource
+# SKCollectionViewDataSource
 
-![Travis Status](https://travis-ci.org/skladek/CollectionViewDataSource.svg?branch=master)
+![Travis Status](https://travis-ci.org/skladek/SKCollectionViewDataSource.svg?branch=master)
