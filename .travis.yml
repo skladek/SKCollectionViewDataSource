@@ -1,5 +1,5 @@
 language: swift
 osx_image: xcode8.3
 script: fastlane test
-xcode_project: CollectionViewDataSource.xcodeproj
-xcode_scheme: CollectionViewDataSource
+xcode_project: SKCollectionViewDataSource.xcodeproj
+xcode_scheme: SKCollectionViewDataSource
