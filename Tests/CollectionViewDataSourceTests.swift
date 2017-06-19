@@ -25,7 +25,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
     override func spec() {
         describe("CollectionViewDataSource") {
             beforeEach {
-                self.cellConfiguration = CellConfiguration(reuseId: self.reuseId, presenter: nil)
+                self.cellConfiguration = CellConfiguration(cell: UICollectionViewCell.self, presenter: nil)
                 let flowLayout = UICollectionViewFlowLayout()
                 flowLayout.itemSize = CGSize(width: 50, height: 50)
                 self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), collectionViewLayout: flowLayout)
@@ -50,16 +50,12 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     expect(self.unitUnderTest.objects.first).to(equal(self.objects.first))
                     expect(self.unitUnderTest.objects.last).to(equal(self.objects.last))
                 }
-
-                it("Should set the reuse id") {
-                    expect(self.unitUnderTest.cellConfiguration.reuseId).to(equal(self.reuseId))
-                }
             }
 
-            context("configureReusableView(_:with:at:)") {
+            context("configureSupplementaryView(_:with:at:)") {
                 it("should return the view through the configuration's presenter") {
                     let supplementaryView = MockSupplementaryView()
-                    let configuration = SupplementaryViewConfiguration<String>(reuseId: "", viewKind: "", presenter: { (view, section) in
+                    let configuration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: "", presenter: { (view, section) in
                         expect(view).to(beIdenticalTo(supplementaryView))
                     })
 
@@ -69,11 +65,26 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 it("should return the section through the configurations presenter") {
                     let supplementaryView = MockSupplementaryView()
                     let indexPath = IndexPath(item: 0, section: 7)
-                    let configuration = SupplementaryViewConfiguration<String>(reuseId: "", viewKind: "", presenter: { (view, section) in
+                    let configuration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: "", presenter: { (view, section) in
                         expect(section).to(equal(7))
                     })
 
                     self.unitUnderTest.configureSupplementaryView(supplementaryView, with: configuration, at: indexPath)
+                }
+            }
+
+            context("registerCellIfNeeded(collectionView:)") {
+                var collectionView: UICollectionView!
+
+                beforeEach() {
+                    let collectionViewLayout = UICollectionViewFlowLayout()
+                    collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+                }
+
+                it("Should return the reuse id if the cell configuration has a reuse id") {
+                    self.cellConfiguration.reuseId = "TestReuseId"
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
+                    expect(self.unitUnderTest.registerCellIfNeeded(collectionView: collectionView)).to(equal("TestReuseId"))
                 }
             }
 
@@ -95,26 +106,6 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let indexPath = IndexPath(row: 1, section: 1)
 
                     expect(self.unitUnderTest.object(indexPath)).to(equal("S1R1"))
-                }
-            }
-
-            context("reusableViewConfigurationMatchingKind(_:)") {
-                it("should return the configuration that matches the supplied kind") {
-                    let config1 = SupplementaryViewConfiguration<String>(reuseId: "", viewKind: "kind1", presenter: nil)
-                    let config2 = SupplementaryViewConfiguration<String>(reuseId: "", viewKind: "kind2", presenter: nil)
-
-                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [config1, config2])
-
-                    expect(self.unitUnderTest.supplementaryViewConfigurationMatchingKind("kind2")?.viewKind).to(equal("kind2"))
-                }
-
-                it("should return nil if no configuration matches the supplied kind") {
-                    let config1 = SupplementaryViewConfiguration<String>(reuseId: "", viewKind: "kind1", presenter: nil)
-                    let config2 = SupplementaryViewConfiguration<String>(reuseId: "", viewKind: "kind2", presenter: nil)
-
-                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [config1, config2])
-
-                    expect(self.unitUnderTest.supplementaryViewConfigurationMatchingKind("kind3")).to(beNil())
                 }
             }
 
@@ -163,7 +154,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
 
                 it("should pass the cell to the presenter") {
-                    self.cellConfiguration = CellConfiguration(reuseId: self.reuseId, presenter: { (cell, object) in
+                    self.cellConfiguration = CellConfiguration(cell: UICollectionViewCell.self, presenter: { (cell, object) in
                         expect(cell).toNot(beNil())
                     })
 
@@ -174,7 +165,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
 
                 it("should pass the object to the presenter") {
-                    self.cellConfiguration = CellConfiguration(reuseId: self.reuseId, presenter: { (cell, object) in
+                    self.cellConfiguration = CellConfiguration(cell: UICollectionViewCell.self, presenter: { (cell, object) in
                         expect(object).to(equal("S0R0"))
                     })
 
@@ -222,7 +213,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
 
                 it("Should return a supplementary view from the collection view dequeue method if a kind match is found.") {
-                    let reusableViewConfiguration = SupplementaryViewConfiguration<String>(reuseId: "reuseId", viewKind: UICollectionElementKindSectionHeader, presenter: nil)
+                    let reusableViewConfiguration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: UICollectionElementKindSectionHeader, presenter: nil)
                     self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [reusableViewConfiguration])
                     let mockCollectionView = MockCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
                     let supplementaryView = self.unitUnderTest.collectionView(mockCollectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: self.indexPath)
@@ -235,10 +226,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     self.unitUnderTest.delegate = self.delegate
                     self.collectionView.dataSource = self.unitUnderTest
 
-                    let supplementaryView = self.unitUnderTest.collectionView(self.collectionView, viewForSupplementaryElementOfKind: "Unknown Kind", at: self.indexPath)
-
-                    expect(supplementaryView).to(beAnInstanceOf(UICollectionReusableView.self))
-                    expect(supplementaryView.subviews.count).to(equal(0))
+                    expect(self.unitUnderTest.collectionView(self.collectionView, viewForSupplementaryElementOfKind: "Unknown Kind", at: self.indexPath)).to(raiseException())
                 }
             }
 
