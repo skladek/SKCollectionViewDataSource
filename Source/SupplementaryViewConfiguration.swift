@@ -10,7 +10,8 @@ import Foundation
 
 /// Provides a configuration object for collection view supplementary views.
 public struct SupplementaryViewConfiguration<T> {
-    let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
+
+    // MARK: Public Variables
 
     /// The view's reuse id.
     public internal(set) var reuseId: String?
@@ -18,9 +19,13 @@ public struct SupplementaryViewConfiguration<T> {
     /// The kind of supplementary view.
     public let viewKind: String
 
-    let viewClass: UIView.Type?
+    // MARK: Internal Variables
 
+    let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
+    let viewClass: UIView.Type?
     let viewNib: UINib?
+
+    // MARK: Init Methods
 
     /// Initializes a supplementary view configuration object.
     ///

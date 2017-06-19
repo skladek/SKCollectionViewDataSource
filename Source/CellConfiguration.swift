@@ -10,14 +10,19 @@ import Foundation
 
 /// Provides a configuration object for collection view cells.
 public struct CellConfiguration<T> {
-    let cellClass: UICollectionViewCell.Type?
 
-    let cellNib: UINib?
-
-    let presenter: CollectionViewDataSource<T>.CellPresenter?
+    // MARK: Public Variables
 
     /// The cell's reuse identifier
     public internal(set) var reuseId: String?
+
+    // MARK: Internal Variables
+
+    let cellClass: UICollectionViewCell.Type?
+    let cellNib: UINib?
+    let presenter: CollectionViewDataSource<T>.CellPresenter?
+
+    // MARK: Init Methods
 
     public init(cell: UICollectionViewCell.Type, presenter: CollectionViewDataSource<T>.CellPresenter?) {
         self.cellClass = cell

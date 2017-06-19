@@ -130,6 +130,8 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return generatedReuseId
     }
 
+    // MARK: Internal Class Methods
+
     class func supplementaryViewsDictionary(_ supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]) -> [String: SupplementaryViewConfiguration<T>] {
         var dictionary = [String: SupplementaryViewConfiguration<T>]()
 
