@@ -30,8 +30,8 @@ public struct SupplementaryViewConfiguration<T> {
     /// Initializes a supplementary view configuration object.
     ///
     /// - Parameters:
-    ///   - reuseId: The view's reuse identifier
-    ///   - viewKind: The kind of supplementary view
+    ///   - view: The view class that will be used to form the view.
+    ///   - viewKind: The view kind that the configuration should be used for.
     ///   - presenter: An optional closure that can be used to inject view styling and further configuration.
     public init(view: UIView.Type, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
         self.presenter = presenter
@@ -40,6 +40,12 @@ public struct SupplementaryViewConfiguration<T> {
         self.viewNib = nil
     }
 
+    /// Initializes a supplementary view configuration object.
+    ///
+    /// - Parameters:
+    ///   - view: The nib that will be used to form the view.
+    ///   - viewKind: The view kind that the configuration should be used for.
+    ///   - presenter: An optional closure that can be used to inject view styling and further configuration.
     public init(view: UINib, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
         self.presenter = presenter
         self.viewClass = nil

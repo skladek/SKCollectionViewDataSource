@@ -24,6 +24,11 @@ public struct CellConfiguration<T> {
 
     // MARK: Init Methods
 
+    /// Initializes a cell configuration object
+    ///
+    /// - Parameters:
+    ///   - cell: The cell class to use for the cells
+    ///   - presenter: An optional closure that can be used to inject cell styling and further configuration.
     public init(cell: UICollectionViewCell.Type, presenter: CollectionViewDataSource<T>.CellPresenter?) {
         self.cellClass = cell
         self.cellNib = nil
@@ -33,7 +38,7 @@ public struct CellConfiguration<T> {
     /// Initializes a cell configuration object.
     ///
     /// - Parameters:
-    ///   - reuseId: The cell's reuse identifier
+    ///   - cell: The cell nib to use for the cells
     ///   - presenter: An optional closure that can be used to inject cell styling and further configuration.
     public init(cell: UINib, presenter: CollectionViewDataSource<T>.CellPresenter?) {
         self.cellClass = nil

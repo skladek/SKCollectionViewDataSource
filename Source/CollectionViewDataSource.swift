@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Provides an object to act as a UICollectionViewDataSource.
 public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: Class Types
@@ -168,10 +169,12 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: UICollectionViewDataSource Methods
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return delegate?.collectionView?(collectionView, canMoveItemAt: indexPath) ?? true
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = delegate?.collectionView?(collectionView, cellForItemAt: indexPath) {
             return cell
@@ -187,10 +190,12 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return cell
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         delegate?.collectionView?(collectionView, moveItemAt: sourceIndexPath, to: destinationIndexPath)
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let items = delegate?.collectionView?(collectionView, numberOfItemsInSection: section) {
             return items
@@ -202,6 +207,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return section.count
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let view = delegate?.collectionView?(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath) {
             return view
@@ -222,6 +228,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return view
     }
 
+    /// UICollectionViewDataSource implementation.
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         if let sections = delegate?.numberOfSections?(in: collectionView) {
             return sections
