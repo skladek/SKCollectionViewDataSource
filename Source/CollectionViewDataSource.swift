@@ -42,10 +42,14 @@ public struct SupplementaryViewConfiguration<T> {
     let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
 
     /// The view's reuse id.
-    public let reuseId: String
+    public fileprivate(set) var reuseId: String?
 
     /// The kind of supplementary view.
     public let viewKind: String
+
+    let viewClass: UIView.Type?
+
+    let viewNib: UINib?
 
     /// Initializes a supplementary view configuration object.
     ///
@@ -53,10 +57,18 @@ public struct SupplementaryViewConfiguration<T> {
     ///   - reuseId: The view's reuse identifier
     ///   - viewKind: The kind of supplementary view
     ///   - presenter: An optional closure that can be used to inject view styling and further configuration.
-    public init(reuseId: String, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
+    public init(view: UIView.Type, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
         self.presenter = presenter
-        self.reuseId = reuseId
+        self.viewClass = view
         self.viewKind = viewKind
+        self.viewNib = nil
+    }
+
+    public init(view: UINib, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
+        self.presenter = presenter
+        self.viewClass = nil
+        self.viewKind = viewKind
+        self.viewNib = view
     }
 }
 
@@ -79,7 +91,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     public var cellConfiguration: CellConfiguration<T>
 
     /// An array of objects controlling the configuration of supplementary views. Each supplementary view kind should have its own configuration object.
-    public let supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]
+    public var supplementaryViewConfigurations: [String: SupplementaryViewConfiguration<T>]
 
     // MARK: Internal Variables
 
@@ -106,7 +118,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     public init(objects: [[T]], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.cellConfiguration = cellConfiguration
         self.objects = objects
-        self.supplementaryViewConfigurations = supplementaryViewConfigurations
+        self.supplementaryViewConfigurations = CollectionViewDataSource.supplementaryViewsDictionary(supplementaryViewConfigurations)
     }
 
     // MARK: Public Methods
@@ -130,18 +142,6 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         let section = sectionArray(indexPath)
 
         return section[indexPath.row]
-    }
-
-    /// Returns a configuration matching the specified kind string.
-    ///
-    /// - Parameter kind: The kind string to match against. This should be provided by the collection view.
-    /// - Returns: The configuration matching the kind or nil if there is no match.
-    public func supplementaryViewConfigurationMatchingKind(_ kind: String) -> SupplementaryViewConfiguration<T>? {
-        for configuration in supplementaryViewConfigurations where kind == configuration.viewKind {
-            return configuration
-        }
-
-        return nil
     }
 
     // MARK: Internal Methods
@@ -169,6 +169,45 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         cellConfiguration.reuseId = generatedReuseId
 
         return generatedReuseId
+    }
+
+    func registerSupplementaryViewIfNeeded(collectionView: UICollectionView, configuration: SupplementaryViewConfiguration<T>, kind: String) -> String {
+        if let reuseId = configuration.reuseId {
+            return reuseId
+        }
+
+        let generatedReuseId = UUID().uuidString
+
+        if let viewNib = configuration.viewNib {
+            collectionView.register(viewNib, forSupplementaryViewOfKind: kind, withReuseIdentifier: generatedReuseId)
+        } else if let viewClass = configuration.viewClass {
+            collectionView.register(viewClass, forSupplementaryViewOfKind: kind, withReuseIdentifier: generatedReuseId)
+        } else {
+            let exception = NSException(name: .internalInconsistencyException, reason: "A supplementary view could not be registered because a nib or class was not provided and the CollectionViewDataSource delegate viewForSupplementaryElementOfKind method did not return a view. Provide a nib, class, or view from the delegate method.", userInfo: nil)
+            exception.raise()
+        }
+
+        var mutableConfiguration = configuration
+        mutableConfiguration.reuseId = generatedReuseId
+        supplementaryViewConfigurations[mutableConfiguration.viewKind] = mutableConfiguration
+
+        return generatedReuseId
+    }
+
+    class func supplementaryViewsDictionary(_ supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]) -> [String: SupplementaryViewConfiguration<T>] {
+        var dictionary = [String: SupplementaryViewConfiguration<T>]()
+
+        for configuration in supplementaryViewConfigurations {
+            if dictionary[configuration.viewKind] != nil {
+                let exception = NSException(name: .internalInconsistencyException, reason: "Multiple SupplementaryViewConfigurations were found for view kind \(configuration.viewKind). Only one configuration is supported for each view kind. Use the CollectionViewDataSourceDelegate if more than one configuration is needed.", userInfo: nil)
+                exception.raise()
+                continue
+            }
+
+            dictionary[configuration.viewKind] = configuration
+        }
+
+        return dictionary
     }
 
     // MARK: Private Methods
@@ -230,11 +269,16 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return view
         }
 
-        guard let configuration = supplementaryViewConfigurationMatchingKind(kind) else {
+        guard let configuration = supplementaryViewConfigurations[kind] else {
+            let exception = NSException(name: .internalInconsistencyException, reason: "A supplementary view configuration was not found for kind: \(kind). A view must be returned from the delegate viewForSupplementaryElementOfKind method or a configuration must be provided for all supplementary view kinds.", userInfo: nil)
+            exception.raise()
+
             return UICollectionReusableView()
         }
 
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: configuration.reuseId, for: indexPath)
+        let reuseId = registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: configuration, kind: kind)
+
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseId, for: indexPath)
         configureSupplementaryView(view, with: configuration, at: indexPath)
 
         return view
