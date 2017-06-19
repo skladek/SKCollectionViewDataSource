@@ -1,5 +1,5 @@
 //
-//  CollectionViewDataSourceTests.swift
+//  CollectionViewDataSourceSpec.swift
 //  CollectionViewDataSourceTests
 //
 //  Created by Sean on 5/15/17.
@@ -74,17 +74,103 @@ class CollectionViewDataSourceSpec: QuickSpec {
             }
 
             context("registerCellIfNeeded(collectionView:)") {
-                var collectionView: UICollectionView!
+                var collectionView: MockCollectionView!
 
                 beforeEach() {
-                    let collectionViewLayout = UICollectionViewFlowLayout()
-                    collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+                    collectionView = MockCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
                 }
 
                 it("Should return the reuse id if the cell configuration has a reuse id") {
                     self.cellConfiguration.reuseId = "TestReuseId"
                     self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
                     expect(self.unitUnderTest.registerCellIfNeeded(collectionView: collectionView)).to(equal("TestReuseId"))
+                }
+
+                it("Should not call the register methods if the cell configuration has been set") {
+                    self.cellConfiguration.reuseId = "TestReuseId"
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
+                    let _ = self.unitUnderTest.registerCellIfNeeded(collectionView: collectionView)
+                    expect(collectionView.registerCellClassCalled).to(beFalse())
+                    expect(collectionView.registerCellNibCalled).to(beFalse())
+                }
+
+                it("Should call register nib if a nib is provided at init") {
+                    self.cellConfiguration = CellConfiguration(cell: UINib(), presenter: nil)
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
+                    let _ = self.unitUnderTest.registerCellIfNeeded(collectionView: collectionView)
+                    expect(collectionView.registerCellClassCalled).to(beFalse())
+                    expect(collectionView.registerCellNibCalled).to(beTrue())
+                }
+
+                it("Should call register class if a cell class is provided at init") {
+                    self.cellConfiguration = CellConfiguration(cell: UICollectionViewCell.self, presenter: nil)
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
+                    let _ = self.unitUnderTest.registerCellIfNeeded(collectionView: collectionView)
+                    expect(collectionView.registerCellClassCalled).to(beTrue())
+                    expect(collectionView.registerCellNibCalled).to(beFalse())
+                }
+            }
+
+            context("registerSupplementaryViewIfNeeded(collectionView:configuration:kind:)") {
+                var collectionView: MockCollectionView!
+
+                beforeEach() {
+                    collectionView = MockCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+                }
+
+                it("Should return the reuse id if the supplementary view has a reuse id") {
+                    var supplementaryViewConfig = SupplementaryViewConfiguration<String>(view: UINib(), viewKind: "TestKind", presenter: nil)
+                    supplementaryViewConfig.reuseId = "TestReuseId"
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [supplementaryViewConfig])
+                    expect(self.unitUnderTest.registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: supplementaryViewConfig)).to(equal("TestReuseId"))
+                }
+
+                it("Should not call the register methods if the reuse id has been set") {
+                    var supplementaryViewConfig = SupplementaryViewConfiguration<String>(view: UINib(), viewKind: "TestKind", presenter: nil)
+                    supplementaryViewConfig.reuseId = "TestReuseId"
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [supplementaryViewConfig])
+                    let _ = self.unitUnderTest.registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: supplementaryViewConfig)
+                    expect(collectionView.registerSupplementaryClassCalled).to(beFalse())
+                    expect(collectionView.registerSupplementaryNibCalled).to(beFalse())
+                }
+
+                it("Should call register nib if a nib is provided in the configuration") {
+                    let supplementaryViewConfig = SupplementaryViewConfiguration<String>(view: UINib(), viewKind: "TestKind", presenter: nil)
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [supplementaryViewConfig])
+                    let _ = self.unitUnderTest.registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: supplementaryViewConfig)
+                    expect(collectionView.registerSupplementaryClassCalled).to(beFalse())
+                    expect(collectionView.registerSupplementaryNibCalled).to(beTrue())
+                }
+
+                it("Should call register class if a class is provided in the configuration") {
+                    let supplementaryViewConfig = SupplementaryViewConfiguration<String>(view: UICollectionViewCell.self, viewKind: "TestKind", presenter: nil)
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [supplementaryViewConfig])
+                    let _ = self.unitUnderTest.registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: supplementaryViewConfig)
+                    expect(collectionView.registerSupplementaryClassCalled).to(beTrue())
+                    expect(collectionView.registerSupplementaryNibCalled).to(beFalse())
+                }
+            }
+
+            context("supplementaryViewsDictionary(_:)") {
+                var supplementaryConfig: SupplementaryViewConfiguration<String>!
+
+                beforeEach() {
+                    supplementaryConfig = SupplementaryViewConfiguration(view: UINib(), viewKind: "TestViewKind", presenter: nil)
+                }
+
+                it("Should return an empty dictionary if an empty array is passed in") {
+                    let inputDictionary: [SupplementaryViewConfiguration<String>] = []
+                    expect(CollectionViewDataSource.supplementaryViewsDictionary(inputDictionary).count).to(equal(0))
+                }
+
+                it("Should set view kind as the key to the view configuration") {
+                    let dictionary = CollectionViewDataSource.supplementaryViewsDictionary([supplementaryConfig])
+                    expect(dictionary["TestViewKind"]?.viewKind).to(equal("TestViewKind"))
+                }
+
+                it("Should raise an exception if duplicate view kinds are found") {
+                    let secondConfig = SupplementaryViewConfiguration<String>(view: UINib(), viewKind: "TestViewKind", presenter: nil)
+                    expect(CollectionViewDataSource.supplementaryViewsDictionary([supplementaryConfig, secondConfig])).to(raiseException())
                 }
             }
 

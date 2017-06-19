@@ -107,7 +107,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return generatedReuseId
     }
 
-    func registerSupplementaryViewIfNeeded(collectionView: UICollectionView, configuration: SupplementaryViewConfiguration<T>, kind: String) -> String {
+    func registerSupplementaryViewIfNeeded(collectionView: UICollectionView, configuration: SupplementaryViewConfiguration<T>) -> String {
         if let reuseId = configuration.reuseId {
             return reuseId
         }
@@ -115,9 +115,9 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         let generatedReuseId = UUID().uuidString
 
         if let viewNib = configuration.viewNib {
-            collectionView.register(viewNib, forSupplementaryViewOfKind: kind, withReuseIdentifier: generatedReuseId)
+            collectionView.register(viewNib, forSupplementaryViewOfKind: configuration.viewKind, withReuseIdentifier: generatedReuseId)
         } else if let viewClass = configuration.viewClass {
-            collectionView.register(viewClass, forSupplementaryViewOfKind: kind, withReuseIdentifier: generatedReuseId)
+            collectionView.register(viewClass, forSupplementaryViewOfKind: configuration.viewKind, withReuseIdentifier: generatedReuseId)
         } else {
             let exception = NSException(name: .internalInconsistencyException, reason: "A supplementary view could not be registered because a nib or class was not provided and the CollectionViewDataSource delegate viewForSupplementaryElementOfKind method did not return a view. Provide a nib, class, or view from the delegate method.", userInfo: nil)
             exception.raise()
@@ -212,7 +212,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return UICollectionReusableView()
         }
 
-        let reuseId = registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: configuration, kind: kind)
+        let reuseId = registerSupplementaryViewIfNeeded(collectionView: collectionView, configuration: configuration)
 
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseId, for: indexPath)
         configureSupplementaryView(view, with: configuration, at: indexPath)
