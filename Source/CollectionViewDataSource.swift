@@ -10,7 +10,7 @@ import UIKit
 
 /// Provides a configuration object for collection view cells.
 public struct CellConfiguration<T> {
-    let cellClass: UITableViewCell.Type?
+    let cellClass: UICollectionViewCell.Type?
 
     let cellNib: UINib?
 
@@ -19,7 +19,7 @@ public struct CellConfiguration<T> {
     /// The cell's reuse identifier
     public fileprivate(set) var reuseId: String?
 
-    public init(cell: UITableViewCell.Type, presenter: CollectionViewDataSource<T>.CellPresenter?) {
+    public init(cell: UICollectionViewCell.Type, presenter: CollectionViewDataSource<T>.CellPresenter?) {
         self.cellClass = cell
         self.cellNib = nil
         self.presenter = presenter
@@ -102,7 +102,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     /// Initializes a data source with an array of objects.
     ///
     /// - Parameters:
-    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section table view.
+    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section collection view.
     ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
     ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
     public convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
