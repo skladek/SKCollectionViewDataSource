@@ -14,6 +14,7 @@
 		1457B8C21EEB445C00F9495E /* CollectionViewDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1457B8B41EEB421B00F9495E /* CollectionViewDataSourceTests.swift */; };
 		1457B8C31EEB446800F9495E /* MockCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1457B8B61EEB421B00F9495E /* MockCollectionView.swift */; };
 		1457B8C41EEB446800F9495E /* MockCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1457B8B71EEB421B00F9495E /* MockCollectionViewDataSourceDelegate.swift */; };
+		14A8C9241EF840C10061DCCA /* CollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A8C9231EF840C10061DCCA /* CollectionViewDataSourceDelegate.swift */; };
 		ECDF5814DC8839157A2F1919 /* Pods_SKCollectionViewDataSourceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2E847F37E858699AB9B0C2 /* Pods_SKCollectionViewDataSourceTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		1457B8B51EEB421B00F9495E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1457B8B61EEB421B00F9495E /* MockCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCollectionView.swift; sourceTree = "<group>"; };
 		1457B8B71EEB421B00F9495E /* MockCollectionViewDataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCollectionViewDataSourceDelegate.swift; sourceTree = "<group>"; };
+		14A8C9231EF840C10061DCCA /* CollectionViewDataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSourceDelegate.swift; sourceTree = "<group>"; };
 		430A31E83E7E35A5A0B15B38 /* Pods-SKCollectionViewDataSourceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKCollectionViewDataSourceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SKCollectionViewDataSourceTests/Pods-SKCollectionViewDataSourceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		959ECA0DBB4E30F4CF253E98 /* Pods-SKCollectionViewDataSourceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKCollectionViewDataSourceTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SKCollectionViewDataSourceTests/Pods-SKCollectionViewDataSourceTests.release.xcconfig"; sourceTree = "<group>"; };
 		9A715823F380A63C12209E5E /* Pods_SKCollectionViewDataSource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SKCollectionViewDataSource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,7 +91,8 @@
 		1457B8AF1EEB421B00F9495E /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				1457B8C11EEB423500F9495E /* Source */,
+				1457B8B01EEB421B00F9495E /* CollectionViewDataSource.swift */,
+				14A8C9231EF840C10061DCCA /* CollectionViewDataSourceDelegate.swift */,
 				1457B8B11EEB421B00F9495E /* Info.plist */,
 				1457B8B21EEB421B00F9495E /* SKCollectionViewDataSource.h */,
 			);
@@ -119,14 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				1457B8B41EEB421B00F9495E /* CollectionViewDataSourceTests.swift */,
-			);
-			name = Source;
-			sourceTree = "<group>";
-		};
-		1457B8C11EEB423500F9495E /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				1457B8B01EEB421B00F9495E /* CollectionViewDataSource.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -361,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14A8C9241EF840C10061DCCA /* CollectionViewDataSourceDelegate.swift in Sources */,
 				1457B8B81EEB421B00F9495E /* CollectionViewDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
