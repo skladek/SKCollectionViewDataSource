@@ -10,19 +10,30 @@ import UIKit
 
 /// Provides a configuration object for collection view cells.
 public struct CellConfiguration<T> {
+    let cellClass: UITableViewCell.Type?
+
+    let cellNib: UINib?
+
     let presenter: CollectionViewDataSource<T>.CellPresenter?
 
     /// The cell's reuse identifier
-    public let reuseId: String
+    public fileprivate(set) var reuseId: String?
+
+    public init(cell: UITableViewCell.Type, presenter: CollectionViewDataSource<T>.CellPresenter?) {
+        self.cellClass = cell
+        self.cellNib = nil
+        self.presenter = presenter
+    }
 
     /// Initializes a cell configuration object.
     ///
     /// - Parameters:
     ///   - reuseId: The cell's reuse identifier
     ///   - presenter: An optional closure that can be used to inject cell styling and further configuration.
-    public init(reuseId: String, presenter: CollectionViewDataSource<T>.CellPresenter?) {
+    public init(cell: UINib, presenter: CollectionViewDataSource<T>.CellPresenter?) {
+        self.cellClass = nil
+        self.cellNib = cell
         self.presenter = presenter
-        self.reuseId = reuseId
     }
 }
 
@@ -65,7 +76,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     public weak var delegate: CollectionViewDataSourceDelegate?
 
     /// The object controlling the configuration of cells.
-    public let cellConfiguration: CellConfiguration<T>
+    public var cellConfiguration: CellConfiguration<T>
 
     /// An array of objects controlling the configuration of supplementary views. Each supplementary view kind should have its own configuration object.
     public let supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]
@@ -139,6 +150,27 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         configuration.presenter?(view, indexPath.section)
     }
 
+    func registerCellIfNeeded(collectionView: UICollectionView) -> String {
+        if let reuseId = cellConfiguration.reuseId {
+            return reuseId
+        }
+
+        let generatedReuseId = UUID().uuidString
+
+        if let cellNib = cellConfiguration.cellNib {
+            collectionView.register(cellNib, forCellWithReuseIdentifier: generatedReuseId)
+        } else if let cellClass = cellConfiguration.cellClass {
+            collectionView.register(cellClass, forCellWithReuseIdentifier: generatedReuseId)
+        } else {
+            let exception = NSException(name: .internalInconsistencyException, reason: "A cell could not be registered because a nib or class was not provided and the CollectionViewDataSource delegate cellForRowAtIndexPath method did not return a cell. Provide a nib, class, or cell from the delegate method.", userInfo: nil)
+            exception.raise()
+        }
+
+        cellConfiguration.reuseId = generatedReuseId
+
+        return generatedReuseId
+    }
+
     // MARK: Private Methods
 
     private func delete(indexPath: IndexPath) {
@@ -168,7 +200,9 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
             return cell
         }
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellConfiguration.reuseId, for: indexPath)
+        let reuseId = registerCellIfNeeded(collectionView: collectionView)
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
 
         let object = self.object(indexPath)
         cellConfiguration.presenter?(cell, object)

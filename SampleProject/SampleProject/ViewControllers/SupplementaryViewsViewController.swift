@@ -18,7 +18,8 @@ class SupplementaryViewsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let cellConfiguration = CellConfiguration<String>(reuseId: "SupplementaryViewsViewControllerReuseId") { (cell, object) in
+        let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
+        let cellConfiguration = CellConfiguration<String>(cell: textCellNib) { (cell, object) in
             guard let cell = cell as? TextCell else {
                 return
             }
@@ -47,9 +48,6 @@ class SupplementaryViewsViewController: UIViewController {
 
             view.backgroundColor = .red
         }
-
-        let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
-        collectionView.register(textCellNib, forCellWithReuseIdentifier: cellConfiguration.reuseId)
 
         let headerNib = UINib(nibName: "HeaderCell", bundle: Bundle.main)
         collectionView.register(headerNib, forSupplementaryViewOfKind: headerConfiguration.viewKind, withReuseIdentifier: headerConfiguration.reuseId)
