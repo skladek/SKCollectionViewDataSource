@@ -25,11 +25,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let reuseId = "HomeViewControllerReuseId"
-
-        let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
-        collectionView.register(textCellNib, forCellWithReuseIdentifier: reuseId)
-
         let array: [Items] = [
             .singleSection,
             .multipleSection,
@@ -37,7 +32,8 @@ class HomeViewController: UIViewController {
             .supplementaryViews
         ]
 
-        let cellConfiguration = CellConfiguration<Items>(reuseId: reuseId) { (cell, object) in
+        let textCellNib = UINib(nibName: "TextCell", bundle: Bundle.main)
+        let cellConfiguration = CellConfiguration<Items>(cell: textCellNib) { (cell, object) in
             guard let cell = cell as? TextCell else {
                 return
             }
