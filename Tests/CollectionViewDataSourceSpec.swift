@@ -37,7 +37,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
             context("init(objects:supplementaryViewConfigurations:)") {
                 beforeEach {
                     let singleLevelObjects = ["S0R0", "S0R1", "S0R2"]
-                    self.unitUnderTest = CollectionViewDataSource(objects: singleLevelObjects)
+                    self.unitUnderTest = CollectionViewDataSource(objects: singleLevelObjects, delegate: self.delegate)
                 }
 
                 it("Should wrap the objects array in an array and set to objects") {
@@ -47,7 +47,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
 
             context("init(objects:supplementaryViewConfigurations:)") {
                 beforeEach {
-                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects)
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects, delegate: self.delegate)
                 }
 
                 it("Should set the objects array") {
@@ -71,6 +71,29 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 it("Should set the objects array") {
                     expect(self.unitUnderTest.objects.first).to(equal(self.objects.first))
                     expect(self.unitUnderTest.objects.last).to(equal(self.objects.last))
+                }
+            }
+
+            context("init(objectsArray:cellConfiguration:supplementaryViewConfigurations:)") {
+                var supplementaryViewConfiguration: SupplementaryViewConfiguration<String>!
+
+                beforeEach {
+                    supplementaryViewConfiguration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: "TestViewKind", presenter: nil)
+                    self.unitUnderTest = CollectionViewDataSource(objectsArray: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [supplementaryViewConfiguration])
+                }
+
+                it("Should set the cell configuration") {
+                    expect(self.unitUnderTest.cellConfiguration).to(beAnInstanceOf(CellConfiguration<String>.self))
+                }
+
+                it("Should set the objects array") {
+                    expect(self.unitUnderTest.objects.first).to(equal(self.objects.first))
+                    expect(self.unitUnderTest.objects.last).to(equal(self.objects.last))
+                }
+
+                it("Should set the objects array to an empty array if nil is passed in") {
+                    self.unitUnderTest = CollectionViewDataSource(objectsArray: nil, cellConfiguration: nil)
+                    expect(self.unitUnderTest.objects).toNot(beNil())
                 }
             }
 
@@ -196,6 +219,37 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
             }
 
+            context("delete(indexPath:)") {
+                let objects = [["S0R0", "S0R1", "S0R2"], ["S1R0", "S1R1", "S1R2"]]
+
+                beforeEach {
+                    self.unitUnderTest = CollectionViewDataSource(objectsArray: objects, cellConfiguration: nil)
+                }
+
+                it("Should delete the object at the specified index path") {
+                    self.unitUnderTest.delete(indexPath: IndexPath(row: 1, section: 1))
+                    let sectionArray = self.unitUnderTest.objects[1]
+
+                    expect(sectionArray).to(equal(["S1R0", "S1R2"]))
+                }
+            }
+
+            context("insert(_:indexPath:)") {
+                let objects = [["S0R0", "S0R1", "S0R2"], ["S1R0", "S1R1", "S1R2"]]
+
+                beforeEach {
+                    self.unitUnderTest = CollectionViewDataSource(objectsArray: objects, cellConfiguration: nil)
+                }
+
+                it("Should insert the given object at the specified index path") {
+                    let object = "insertedObject"
+                    self.unitUnderTest.insert(object: object, at: IndexPath(row: 1, section: 1))
+                    let sectionArray = self.unitUnderTest.objects[1]
+
+                    expect(sectionArray).to(equal(["S1R0", "insertedObject", "S1R1", "S1R2"]))
+                }
+            }
+
             context("moveFrom(_:to:)") {
                 it("Should move the object at the from index path to the to index path") {
                     let fromIndexPath = IndexPath(row: 1, section: 0)
@@ -214,6 +268,49 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     let indexPath = IndexPath(row: 1, section: 1)
 
                     expect(self.unitUnderTest.object(indexPath)).to(equal("S1R1"))
+                }
+            }
+
+            context("setObjects(_:)") {
+                it("Should set objects to an empty array if nil is passed in as a 2 dimensional array.") {
+                    let nilStringArray: [[String]]? = nil
+                    self.unitUnderTest.setObjects(nilStringArray)
+                    expect(self.unitUnderTest.objects.count).to(equal(0))
+                    expect(self.unitUnderTest.objects.count).toNot(beNil())
+                }
+
+                it("Should set the objects var to the passed in array") {
+                    let objects: [[String]] = [["One", "Two", "Three"], ["Three", "Four", "Five"]]
+                    self.unitUnderTest.setObjects(objects)
+                    expect(self.unitUnderTest.objects[0]).to(equal(objects[0]))
+                    expect(self.unitUnderTest.objects[1]).to(equal(objects[1]))
+                }
+
+                it("Should set objects to an empty array if nil is passed in as a 1 dimensional array.") {
+                    let nilStringArray: [String]? = nil
+                    self.unitUnderTest.setObjects(nilStringArray)
+                    expect(self.unitUnderTest.objects.count).to(equal(0))
+                    expect(self.unitUnderTest.objects.count).toNot(beNil())
+                }
+
+                it("Should wrap the array and set objects to a 2 dimensional array if a 1 dimensional array is passed in") {
+                    let objects: [String] = ["One", "Two", "Three"]
+                    self.unitUnderTest.setObjects(objects)
+                    expect(self.unitUnderTest.objects[0]).to(equal(objects))
+                }
+            }
+
+            context("wrapObjects(_:)") {
+                it("Should wrap the input array in an array") {
+                    let inputArray = ["One", "Two", "Three", "Four"]
+                    let result = CollectionViewDataSource.wrapObjects(inputArray)
+                    expect(result.first).to(equal(inputArray))
+                }
+
+                it("Should return an empty array if nil is passed in as the input array") {
+                    let inputArray: [String]? = nil
+                    let result = CollectionViewDataSource.wrapObjects(inputArray)
+                    expect(result).to(beAnInstanceOf(Array<Array<String>>.self))
                 }
             }
 
