@@ -36,10 +36,21 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: Initializers
 
+
+    /// Initializes a data source with an array of objects. Note, if this initializer is used, cells must be registered with the colleciton view before display.
+    ///
+    /// - Parameters:
+    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section collection view.
+    ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
     public convenience init(objects: [T], supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.init(objectsArray: [objects], cellConfiguration: nil, supplementaryViewConfigurations: supplementaryViewConfigurations)
     }
 
+    /// Initializes a data source with an array of objects. Note, if this initializer is used, cells must be registered with the colleciton view before display.
+    ///
+    /// - Parameters:
+    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section collection view.
+    ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
     public convenience init(objects: [[T]], supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.init(objectsArray: objects, cellConfiguration: nil, supplementaryViewConfigurations: supplementaryViewConfigurations)
     }
