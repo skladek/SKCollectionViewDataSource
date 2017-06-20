@@ -34,6 +34,28 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
             }
 
+            context("init(objects:supplementaryViewConfigurations:)") {
+                beforeEach {
+                    let singleLevelObjects = ["S0R0", "S0R1", "S0R2"]
+                    self.unitUnderTest = CollectionViewDataSource(objects: singleLevelObjects)
+                }
+
+                it("Should wrap the objects array in an array and set to objects") {
+                    expect(self.unitUnderTest.objects.first).to(equal(["S0R0", "S0R1", "S0R2"]))
+                }
+            }
+
+            context("init(objects:supplementaryViewConfigurations:)") {
+                beforeEach {
+                    self.unitUnderTest = CollectionViewDataSource(objects: self.objects)
+                }
+
+                it("Should set the objects array") {
+                    expect(self.unitUnderTest.objects.first).to(equal(self.objects.first))
+                    expect(self.unitUnderTest.objects.last).to(equal(self.objects.last))
+                }
+            }
+
             context("init(objects:cellReuseId:cellPresenter:reusableViewPresenter:)") {
                 beforeEach {
                     let singleLevelObjects = ["S0R0", "S0R1", "S0R2"]
