@@ -127,12 +127,18 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return section[indexPath.row]
     }
 
+    /// Sets the data source objects from a 1 dimensional array.
+    ///
+    /// - Parameter objects: The array to update the data store objects with.
     public func setObjects(_ objects: [T]?) {
         let wrappedObjects = CollectionViewDataSource.wrapObjects(objects)
 
         setObjects(wrappedObjects)
     }
 
+    /// Sets the data source objects to the passed in array.
+    ///
+    /// - Parameter objects: The array to updat the data store objects with.
     public func setObjects(_ objects: [[T]]?) {
         self.objects = objects ?? [[T]]()
     }
