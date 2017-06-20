@@ -11,14 +11,6 @@ import UIKit
 /// Provides an object to act as a UICollectionViewDataSource.
 public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
-    // MARK: Class Types
-
-    /// A closure to allow the presenter logic to be injected.
-    public typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> Void
-
-    /// A closure to allow the presenter logic to be injected.
-    public typealias SupplementaryViewPresenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> Void
-
     // MARK: Public Variables
 
     /// The object that acts as the delegate to the data source.

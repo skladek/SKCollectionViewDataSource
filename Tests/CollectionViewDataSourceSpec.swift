@@ -78,7 +78,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 var supplementaryViewConfiguration: SupplementaryViewConfiguration<String>!
 
                 beforeEach {
-                    supplementaryViewConfiguration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: "TestViewKind", presenter: nil)
+                    supplementaryViewConfiguration = SupplementaryViewConfiguration<String>(view: UICollectionReusableView.self, viewKind: "TestViewKind", presenter: nil)
                     self.unitUnderTest = CollectionViewDataSource(objectsArray: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [supplementaryViewConfiguration])
                 }
 
@@ -100,7 +100,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
             context("configureSupplementaryView(_:with:at:)") {
                 it("should return the view through the configuration's presenter") {
                     let supplementaryView = MockSupplementaryView()
-                    let configuration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: "", presenter: { (view, section) in
+                    let configuration = SupplementaryViewConfiguration<String>(view: UICollectionReusableView.self, viewKind: "", presenter: { (view, section) in
                         expect(view).to(beIdenticalTo(supplementaryView))
                     })
 
@@ -110,7 +110,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 it("should return the section through the configurations presenter") {
                     let supplementaryView = MockSupplementaryView()
                     let indexPath = IndexPath(item: 0, section: 7)
-                    let configuration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: "", presenter: { (view, section) in
+                    let configuration = SupplementaryViewConfiguration<String>(view: UICollectionReusableView.self, viewKind: "", presenter: { (view, section) in
                         expect(section).to(equal(7))
                     })
 
@@ -418,7 +418,7 @@ class CollectionViewDataSourceSpec: QuickSpec {
                 }
 
                 it("Should return a supplementary view from the collection view dequeue method if a kind match is found.") {
-                    let reusableViewConfiguration = SupplementaryViewConfiguration<String>(view: UIView.self, viewKind: UICollectionElementKindSectionHeader, presenter: nil)
+                    let reusableViewConfiguration = SupplementaryViewConfiguration<String>(view: UICollectionReusableView.self, viewKind: UICollectionElementKindSectionHeader, presenter: nil)
                     self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration, supplementaryViewConfigurations: [reusableViewConfiguration])
                     let mockCollectionView = MockCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
                     let supplementaryView = self.unitUnderTest.collectionView(mockCollectionView, viewForSupplementaryElementOfKind: UICollectionElementKindSectionHeader, at: self.indexPath)
