@@ -25,7 +25,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     public weak var delegate: CollectionViewDataSourceDelegate?
 
     /// The object controlling the configuration of cells.
-    public var cellConfiguration: CellConfiguration<T>
+    public var cellConfiguration: CellConfiguration<T>?
 
     /// An array of objects controlling the configuration of supplementary views. Each supplementary view kind should have its own configuration object.
     public var supplementaryViewConfigurations: [String: SupplementaryViewConfiguration<T>]
@@ -36,6 +36,14 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: Initializers
 
+    public convenience init(objects: [T], supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        self.init(objectsArray: [objects], cellConfiguration: nil, supplementaryViewConfigurations: supplementaryViewConfigurations)
+    }
+
+    public convenience init(objects: [[T]], supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        self.init(objectsArray: objects, cellConfiguration: nil, supplementaryViewConfigurations: supplementaryViewConfigurations)
+    }
+
     /// Initializes a data source with an array of objects.
     ///
     /// - Parameters:
@@ -43,7 +51,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
     ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
     public convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
-        self.init(objects: [objects], cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
+        self.init(objectsArray: [objects], cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
     }
 
     /// Initializes a data source with an array of objects.
@@ -52,9 +60,13 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     ///   - objects: The objects array to display.
     ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
     ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
-    public init(objects: [[T]], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+    public convenience init(objects: [[T]], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        self.init(objectsArray: objects, cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
+    }
+
+    init(objectsArray: [[T]], cellConfiguration: CellConfiguration<T>?, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.cellConfiguration = cellConfiguration
-        self.objects = objects
+        self.objects = objectsArray
         self.supplementaryViewConfigurations = CollectionViewDataSource.supplementaryViewsDictionary(supplementaryViewConfigurations)
     }
 
@@ -88,22 +100,22 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     }
 
     func registerCellIfNeeded(collectionView: UICollectionView) -> String {
-        if let reuseId = cellConfiguration.reuseId {
+        if let reuseId = cellConfiguration?.reuseId {
             return reuseId
         }
 
         let generatedReuseId = UUID().uuidString
 
-        if let cellNib = cellConfiguration.cellNib {
+        if let cellNib = cellConfiguration?.cellNib {
             collectionView.register(cellNib, forCellWithReuseIdentifier: generatedReuseId)
-        } else if let cellClass = cellConfiguration.cellClass {
+        } else if let cellClass = cellConfiguration?.cellClass {
             collectionView.register(cellClass, forCellWithReuseIdentifier: generatedReuseId)
         } else {
             let exception = NSException(name: .internalInconsistencyException, reason: "A cell could not be registered because a nib or class was not provided and the CollectionViewDataSource delegate cellForRowAtIndexPath method did not return a cell. Provide a nib, class, or cell from the delegate method.", userInfo: nil)
             exception.raise()
         }
 
-        cellConfiguration.reuseId = generatedReuseId
+        cellConfiguration?.reuseId = generatedReuseId
 
         return generatedReuseId
     }
@@ -185,7 +197,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
 
         let object = self.object(indexPath)
-        cellConfiguration.presenter?(cell, object)
+        cellConfiguration?.presenter?(cell, object)
 
         return cell
     }
