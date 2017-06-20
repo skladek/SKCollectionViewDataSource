@@ -8,6 +8,13 @@
 
 SKCollectionViewDataSource provides an object to handle much of the standard UICollectionViewDataSource logic. It handles calculating row and section counts, retrieving cells and supplementary views, and provides methods for updating the underlying array powering the data source. Check out the SampleProject in the workspace to see some usage examples.
 
+- [Installation](#installation)
+- [Initialization](#initialization)
+- [CellConfiguration](#cellconfiguration)
+- [SupplementaryViewConfiguration](#supplementaryviewconfiguration)
+- [CollectionViewDataSourceDelegate](#collectionviewdatasourcedelegate)
+- [Updating The Data Array](#updating-the-data-array)
+
 ---
 
 ## Installation
