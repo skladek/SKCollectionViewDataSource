@@ -8,15 +8,8 @@
 
 import UIKit
 
+/// Provides an object to act as a UICollectionViewDataSource.
 public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
-
-    // MARK: Class Types
-
-    /// A closure to allow the presenter logic to be injected.
-    public typealias CellPresenter = (_ cell: UICollectionViewCell, _ object: T) -> Void
-
-    /// A closure to allow the presenter logic to be injected.
-    public typealias SupplementaryViewPresenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> Void
 
     // MARK: Public Variables
 
@@ -24,7 +17,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     public weak var delegate: CollectionViewDataSourceDelegate?
 
     /// The object controlling the configuration of cells.
-    public var cellConfiguration: CellConfiguration<T>
+    public var cellConfiguration: CellConfiguration<T>?
 
     /// An array of objects controlling the configuration of supplementary views. Each supplementary view kind should have its own configuration object.
     public var supplementaryViewConfigurations: [String: SupplementaryViewConfiguration<T>]
@@ -35,14 +28,36 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: Initializers
 
+    /// Initializes a data source with an array of objects. Note, if this initializer is used, cells must be registered with the colleciton view before display.
+    ///
+    /// - Parameters:
+    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section collection view.
+    ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
+    public convenience init(objects: [T]?, delegate: CollectionViewDataSourceDelegate, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        let wrappedObjects = CollectionViewDataSource.wrapObjects(objects)
+        self.init(objectsArray: wrappedObjects, cellConfiguration: nil, supplementaryViewConfigurations: supplementaryViewConfigurations)
+        self.delegate = delegate
+    }
+
+    /// Initializes a data source with an array of objects. Note, if this initializer is used, cells must be registered with the colleciton view before display.
+    ///
+    /// - Parameters:
+    ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section collection view.
+    ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
+    public convenience init(objects: [[T]]?, delegate: CollectionViewDataSourceDelegate, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        self.init(objectsArray: objects, cellConfiguration: nil, supplementaryViewConfigurations: supplementaryViewConfigurations)
+        self.delegate = delegate
+    }
+
     /// Initializes a data source with an array of objects.
     ///
     /// - Parameters:
     ///   - objects: The objects array to display. This is a 1 dimensional array representing a single section collection view.
     ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
     ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
-    public convenience init(objects: [T], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
-        self.init(objects: [objects], cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
+    public convenience init(objects: [T]?, cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        let wrappedObjects = CollectionViewDataSource.wrapObjects(objects)
+        self.init(objectsArray: wrappedObjects, cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
     }
 
     /// Initializes a data source with an array of objects.
@@ -51,13 +66,37 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     ///   - objects: The objects array to display.
     ///   - cellConfiguration: The cell configuration object to control loading and configuration of cells.
     ///   - supplementaryViewConfigurations: An array of supplementary view objects. Each supplementary view kind should have a configuration object in this array.
-    public init(objects: [[T]], cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+    public convenience init(objects: [[T]]?, cellConfiguration: CellConfiguration<T>, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
+        self.init(objectsArray: objects, cellConfiguration: cellConfiguration, supplementaryViewConfigurations: supplementaryViewConfigurations)
+    }
+
+    init(objectsArray: [[T]]?, cellConfiguration: CellConfiguration<T>?, supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>] = []) {
         self.cellConfiguration = cellConfiguration
-        self.objects = objects
+        self.objects = objectsArray ?? [[T]]()
         self.supplementaryViewConfigurations = CollectionViewDataSource.supplementaryViewsDictionary(supplementaryViewConfigurations)
     }
 
     // MARK: Public Methods
+
+    /// Deletes the object at the provided index path.
+    ///
+    /// - Parameter indexPath: The index path of the object to delete.
+    public func delete(indexPath: IndexPath) {
+        var section = sectionArray(indexPath)
+        section.remove(at: indexPath.row)
+        objects[indexPath.section] = section
+    }
+
+    /// Inserts the object at the provided index path.
+    ///
+    /// - Parameters:
+    ///   - object: The object to insert.
+    ///   - indexPath: The index path where the object should be inserted.
+    public func insert(object: T, at indexPath: IndexPath) {
+        var section = sectionArray(indexPath)
+        section.insert(object, at: indexPath.row)
+        objects[indexPath.section] = section
+    }
 
     /// Moves the object at the source index path to the destination index path.
     ///
@@ -80,6 +119,22 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return section[indexPath.row]
     }
 
+    /// Sets the data source objects from a 1 dimensional array.
+    ///
+    /// - Parameter objects: The array to update the data store objects with.
+    public func setObjects(_ objects: [T]?) {
+        let wrappedObjects = CollectionViewDataSource.wrapObjects(objects)
+
+        setObjects(wrappedObjects)
+    }
+
+    /// Sets the data source objects to the passed in array.
+    ///
+    /// - Parameter objects: The array to updat the data store objects with.
+    public func setObjects(_ objects: [[T]]?) {
+        self.objects = objects ?? [[T]]()
+    }
+
     // MARK: Internal Methods
 
     func configureSupplementaryView(_ view: UICollectionReusableView, with configuration: SupplementaryViewConfiguration<T>, at indexPath: IndexPath) {
@@ -87,22 +142,22 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
     }
 
     func registerCellIfNeeded(collectionView: UICollectionView) -> String {
-        if let reuseId = cellConfiguration.reuseId {
+        if let reuseId = cellConfiguration?.reuseId {
             return reuseId
         }
 
         let generatedReuseId = UUID().uuidString
 
-        if let cellNib = cellConfiguration.cellNib {
+        if let cellNib = cellConfiguration?.cellNib {
             collectionView.register(cellNib, forCellWithReuseIdentifier: generatedReuseId)
-        } else if let cellClass = cellConfiguration.cellClass {
+        } else if let cellClass = cellConfiguration?.cellClass {
             collectionView.register(cellClass, forCellWithReuseIdentifier: generatedReuseId)
         } else {
             let exception = NSException(name: .internalInconsistencyException, reason: "A cell could not be registered because a nib or class was not provided and the CollectionViewDataSource delegate cellForRowAtIndexPath method did not return a cell. Provide a nib, class, or cell from the delegate method.", userInfo: nil)
             exception.raise()
         }
 
-        cellConfiguration.reuseId = generatedReuseId
+        cellConfiguration?.reuseId = generatedReuseId
 
         return generatedReuseId
     }
@@ -130,9 +185,9 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return generatedReuseId
     }
 
-    // MARK: Internal Class Methods
+    // MARK: Internal Static Methods
 
-    class func supplementaryViewsDictionary(_ supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]) -> [String: SupplementaryViewConfiguration<T>] {
+    static func supplementaryViewsDictionary(_ supplementaryViewConfigurations: [SupplementaryViewConfiguration<T>]) -> [String: SupplementaryViewConfiguration<T>] {
         var dictionary = [String: SupplementaryViewConfiguration<T>]()
 
         for configuration in supplementaryViewConfigurations {
@@ -148,19 +203,16 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return dictionary
     }
 
+    static func wrapObjects(_ objects: [T]?) -> [[T]] {
+        var wrappedObjects: [[T]]? = nil
+        if let objects = objects {
+            wrappedObjects = [objects]
+        }
+
+        return wrappedObjects ?? [[T]]()
+    }
+
     // MARK: Private Methods
-
-    private func delete(indexPath: IndexPath) {
-        var section = sectionArray(indexPath)
-        section.remove(at: indexPath.row)
-        objects[indexPath.section] = section
-    }
-
-    private func insert(object: T, at indexPath: IndexPath) {
-        var section = sectionArray(indexPath)
-        section.insert(object, at: indexPath.row)
-        objects[indexPath.section] = section
-    }
 
     private func sectionArray(_ indexPath: IndexPath) -> [T] {
         return objects[indexPath.section]
@@ -168,10 +220,12 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
 
     // MARK: UICollectionViewDataSource Methods
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return delegate?.collectionView?(collectionView, canMoveItemAt: indexPath) ?? true
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = delegate?.collectionView?(collectionView, cellForItemAt: indexPath) {
             return cell
@@ -182,15 +236,17 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
 
         let object = self.object(indexPath)
-        cellConfiguration.presenter?(cell, object)
+        cellConfiguration?.presenter?(cell, object)
 
         return cell
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         delegate?.collectionView?(collectionView, moveItemAt: sourceIndexPath, to: destinationIndexPath)
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let items = delegate?.collectionView?(collectionView, numberOfItemsInSection: section) {
             return items
@@ -202,6 +258,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return section.count
     }
 
+    /// UICollectionViewDataSource implementation.
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if let view = delegate?.collectionView?(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath) {
             return view
@@ -222,6 +279,7 @@ public class CollectionViewDataSource<T>: NSObject, UICollectionViewDataSource {
         return view
     }
 
+    /// UICollectionViewDataSource implementation.
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         if let sections = delegate?.numberOfSections?(in: collectionView) {
             return sections

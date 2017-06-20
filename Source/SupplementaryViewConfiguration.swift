@@ -11,6 +11,11 @@ import Foundation
 /// Provides a configuration object for collection view supplementary views.
 public struct SupplementaryViewConfiguration<T> {
 
+    // MARK: Class Types
+
+    /// A closure to allow the presenter logic to be injected.
+    public typealias Presenter = (_ reusableView: UICollectionReusableView, _ section: Int) -> Void
+
     // MARK: Public Variables
 
     /// The view's reuse id.
@@ -21,7 +26,7 @@ public struct SupplementaryViewConfiguration<T> {
 
     // MARK: Internal Variables
 
-    let presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?
+    let presenter: Presenter?
     let viewClass: UIView.Type?
     let viewNib: UINib?
 
@@ -30,17 +35,23 @@ public struct SupplementaryViewConfiguration<T> {
     /// Initializes a supplementary view configuration object.
     ///
     /// - Parameters:
-    ///   - reuseId: The view's reuse identifier
-    ///   - viewKind: The kind of supplementary view
+    ///   - view: The view class that will be used to form the view.
+    ///   - viewKind: The view kind that the configuration should be used for.
     ///   - presenter: An optional closure that can be used to inject view styling and further configuration.
-    public init(view: UIView.Type, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
+    public init(view: UICollectionReusableView.Type, viewKind: String, presenter: Presenter?) {
         self.presenter = presenter
         self.viewClass = view
         self.viewKind = viewKind
         self.viewNib = nil
     }
 
-    public init(view: UINib, viewKind: String, presenter: CollectionViewDataSource<T>.SupplementaryViewPresenter?) {
+    /// Initializes a supplementary view configuration object.
+    ///
+    /// - Parameters:
+    ///   - view: The nib that will be used to form the view.
+    ///   - viewKind: The view kind that the configuration should be used for.
+    ///   - presenter: An optional closure that can be used to inject view styling and further configuration.
+    public init(view: UINib, viewKind: String, presenter: Presenter?) {
         self.presenter = presenter
         self.viewClass = nil
         self.viewKind = viewKind

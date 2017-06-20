@@ -11,6 +11,11 @@ import Foundation
 /// Provides a configuration object for collection view cells.
 public struct CellConfiguration<T> {
 
+    // MARK: Class Types
+
+    /// A closure to allow the presenter logic to be injected.
+    public typealias Presenter = (_ cell: UICollectionViewCell, _ object: T) -> Void
+
     // MARK: Public Variables
 
     /// The cell's reuse identifier
@@ -20,11 +25,16 @@ public struct CellConfiguration<T> {
 
     let cellClass: UICollectionViewCell.Type?
     let cellNib: UINib?
-    let presenter: CollectionViewDataSource<T>.CellPresenter?
+    let presenter: Presenter?
 
     // MARK: Init Methods
 
-    public init(cell: UICollectionViewCell.Type, presenter: CollectionViewDataSource<T>.CellPresenter?) {
+    /// Initializes a cell configuration object
+    ///
+    /// - Parameters:
+    ///   - cell: The cell class to use for the cells
+    ///   - presenter: An optional closure that can be used to inject cell styling and further configuration.
+    public init(cell: UICollectionViewCell.Type, presenter: Presenter?) {
         self.cellClass = cell
         self.cellNib = nil
         self.presenter = presenter
@@ -33,9 +43,9 @@ public struct CellConfiguration<T> {
     /// Initializes a cell configuration object.
     ///
     /// - Parameters:
-    ///   - reuseId: The cell's reuse identifier
+    ///   - cell: The cell nib to use for the cells
     ///   - presenter: An optional closure that can be used to inject cell styling and further configuration.
-    public init(cell: UINib, presenter: CollectionViewDataSource<T>.CellPresenter?) {
+    public init(cell: UINib, presenter: Presenter?) {
         self.cellClass = nil
         self.cellNib = cell
         self.presenter = presenter

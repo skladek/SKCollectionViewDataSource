@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14924AFA1EF9B20F00D47947 /* CellConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14924AF81EF9B20A00D47947 /* CellConfigurationSpec.swift */; };
+		14924AFC1EF9B71900D47947 /* SupplementaryViewConfigurationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14924AFB1EF9B71900D47947 /* SupplementaryViewConfigurationSpec.swift */; };
 		14B0B9C71EF874EC0072D272 /* SKCollectionViewDataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B0B9BD1EF874EC0072D272 /* SKCollectionViewDataSource.framework */; };
 		14B0B9E41EF875700072D272 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B0B9D91EF875700072D272 /* CellConfiguration.swift */; };
 		14B0B9E51EF875700072D272 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B0B9DA1EF875700072D272 /* CollectionViewDataSource.swift */; };
@@ -33,6 +35,8 @@
 /* Begin PBXFileReference section */
 		0B2D32D3FC4F32981B1E0BD2 /* Pods-SKCollectionViewDataSourceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKCollectionViewDataSourceTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SKCollectionViewDataSourceTests/Pods-SKCollectionViewDataSourceTests.debug.xcconfig"; sourceTree = "<group>"; };
 		141D2F6766BBBF29D837D667 /* Pods-SKCollectionViewDataSource.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SKCollectionViewDataSource.release.xcconfig"; path = "Pods/Target Support Files/Pods-SKCollectionViewDataSource/Pods-SKCollectionViewDataSource.release.xcconfig"; sourceTree = "<group>"; };
+		14924AF81EF9B20A00D47947 /* CellConfigurationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfigurationSpec.swift; sourceTree = "<group>"; };
+		14924AFB1EF9B71900D47947 /* SupplementaryViewConfigurationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupplementaryViewConfigurationSpec.swift; sourceTree = "<group>"; };
 		14B0B9BD1EF874EC0072D272 /* SKCollectionViewDataSource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SKCollectionViewDataSource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B0B9C61EF874EC0072D272 /* SKCollectionViewDataSourceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SKCollectionViewDataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B0B9D91EF875700072D272 /* CellConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
@@ -108,10 +112,12 @@
 		14B0B9DF1EF875700072D272 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				14924AF81EF9B20A00D47947 /* CellConfigurationSpec.swift */,
 				14B0B9E01EF875700072D272 /* CollectionViewDataSourceSpec.swift */,
 				14B0B9E11EF875700072D272 /* Info.plist */,
 				14B0B9E21EF875700072D272 /* MockCollectionView.swift */,
 				14B0B9E31EF875700072D272 /* MockCollectionViewDataSourceDelegate.swift */,
+				14924AFB1EF9B71900D47947 /* SupplementaryViewConfigurationSpec.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -358,7 +364,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				14B0B9F11EF875750072D272 /* MockCollectionViewDataSourceDelegate.swift in Sources */,
+				14924AFA1EF9B20F00D47947 /* CellConfigurationSpec.swift in Sources */,
 				14B0B9F01EF875750072D272 /* MockCollectionView.swift in Sources */,
+				14924AFC1EF9B71900D47947 /* SupplementaryViewConfigurationSpec.swift in Sources */,
 				14B0B9EE1EF875750072D272 /* CollectionViewDataSourceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
