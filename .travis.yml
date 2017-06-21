@@ -3,5 +3,3 @@ osx_image: xcode8.3
 script: fastlane test
 xcode_project: SKCollectionViewDataSource.xcodeproj
 xcode_scheme: SKCollectionViewDataSource
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
