@@ -1,11 +1,3 @@
-//
-//  CollectionViewDataSourceDelegate.swift
-//  SKCollectionViewDataSource
-//
-//  Created by Sean on 6/19/17.
-//  Copyright © 2017 Sean Kladek. All rights reserved.
-//
-
 import Foundation
 
 /// Exposes all of the UICollectionViewDataSource methods to allow overriding default implementations.

@@ -1,11 +1,3 @@
-//
-//  SupplementaryViewConfiguration.swift
-//  SKCollectionViewDataSource
-//
-//  Created by Sean on 6/19/17.
-//  Copyright © 2017 Sean Kladek. All rights reserved.
-//
-
 import Foundation
 
 /// Provides a configuration object for collection view supplementary views.

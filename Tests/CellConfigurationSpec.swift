@@ -1,11 +1,3 @@
-//
-//  CellConfigurationSpec.swift
-//  SKCollectionViewDataSource
-//
-//  Created by Sean on 6/20/17.
-//  Copyright © 2017 Sean Kladek. All rights reserved.
-//
-
 import Foundation
 import Nimble
 import Quick

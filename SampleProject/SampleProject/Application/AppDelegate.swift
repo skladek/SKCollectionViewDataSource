@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  SampleProject
-//
-//  Created by Sean on 6/8/17.
-//  Copyright © 2017 Sean Kladek. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
