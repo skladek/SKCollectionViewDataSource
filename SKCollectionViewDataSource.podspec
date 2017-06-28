@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'SKCollectionViewDataSource'
-  spec.version = '1.0.0'
+  spec.version = '1.0.1'
   spec.license = 'MIT'
   spec.summary = 'An easy to configure data source for UICollectionView.'
   spec.homepage = 'https://github.com/skladek/SKCollectionViewDataSource'
