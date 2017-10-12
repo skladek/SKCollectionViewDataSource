@@ -30,7 +30,9 @@ class SupplementaryViewsViewController: UIViewController {
             var firstLetter: String? = nil
 
             if let firstWord = self.dataSource?.object(IndexPath(item: 0, section: section)) {
-                firstLetter = firstWord.substring(to: firstWord.index(firstWord.startIndex, offsetBy: 1))
+                let index = firstWord.index(firstWord.startIndex, offsetBy: 1)
+                let firstLetterSubstring = firstWord[..<index]
+                firstLetter = String(firstLetterSubstring)
             }
 
             view.label.text = firstLetter

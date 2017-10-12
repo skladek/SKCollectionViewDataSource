@@ -7,6 +7,7 @@ class ReorderableViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
+    @objc
     func longPress(gesture: UILongPressGestureRecognizer) {
         switch(gesture.state) {
         case UIGestureRecognizerState.began:
