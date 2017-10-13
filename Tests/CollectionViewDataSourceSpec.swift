@@ -127,8 +127,8 @@ class CollectionViewDataSourceSpec: QuickSpec {
                     self.cellConfiguration.reuseId = "TestReuseId"
                     self.unitUnderTest = CollectionViewDataSource(objects: self.objects, cellConfiguration: self.cellConfiguration)
                     let _ = self.unitUnderTest.registerCellIfNeeded(collectionView: collectionView)
-                    expect(collectionView.registerCellClassCalled).to(beFalse())
-                    expect(collectionView.registerCellNibCalled).to(beFalse())
+                    expect(collectionView?.registerCellClassCalled).to(beFalse())
+                    expect(collectionView?.registerCellNibCalled).to(beFalse())
                 }
 
                 it("Should call register nib if a nib is provided at init") {

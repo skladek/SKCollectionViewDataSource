@@ -49,7 +49,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 14FA6F831EEB4684006DE6CC /* SKCollectionViewDataSource.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 1457B8941EEB41C100F9495E;
+			remoteGlobalIDString = 14B0B9BC1EF874EC0072D272;
 			remoteInfo = SKCollectionViewDataSource;
 		};
 /* End PBXContainerItemProxy section */
@@ -229,6 +229,7 @@
 					144BF1871EE99E11000FC4D2 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = MV978XDK83;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -436,7 +437,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.skladek.SampleProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -451,7 +452,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.skladek.SampleProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

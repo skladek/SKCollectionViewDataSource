@@ -15,6 +15,12 @@ class MockCollectionView: UICollectionView {
     }
 
     override func register(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
+        // As of iOS 11, this method is being called by the system to register a shadowReuseCell. Ignore that call, we
+        // only care if the method is getting called by our data source.
+        if identifier == "com.apple.UIKit.shadowReuseCellIdentifier" {
+            return
+        }
+
         registerCellClassCalled = true
     }
 
